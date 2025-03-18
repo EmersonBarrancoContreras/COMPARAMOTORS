@@ -3,11 +3,10 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "comparamotors_front": {
+    "comparamotors-front": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "standalone": true,
           "style": "scss"
         }
       },
@@ -18,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/comparamotors_front",
+            "outputPath": "dist/comparamotors-front",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -27,19 +26,17 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "outputMode": "server",
+            "prerender": true,
             "ssr": {
-              "entry": "src/server.ts"
+              "entry": "server.ts"
             }
           },
           "configurations": {
@@ -47,13 +44,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
               "outputHashing": "all"
@@ -70,16 +67,19 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "comparamotors_front:build:production"
+              "buildTarget": "comparamotors-front:build:production"
             },
             "development": {
-              "buildTarget": "comparamotors_front:build:development"
+              "buildTarget": "comparamotors-front:build:development"
             }
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "comparamotors-front:build"
+          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -91,10 +91,8 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
@@ -104,8 +102,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "6cfdfa24-9335-47db-a2a3-e06e87cb33ee"
   }
 }
