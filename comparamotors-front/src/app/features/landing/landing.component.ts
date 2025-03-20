@@ -9,6 +9,8 @@ import { CardNewComponent } from './components/card-new/card-new.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PublicidadComponent } from './components/publicidad/publicidad.component';
 import { SectionsComponent } from "./components/sections/sections.component";
+import { Notice1Component } from "./components/notice-1/notice-1.component";
+import { Notice2Component } from "./components/notice-2/notice-2.component";
 
 @Component({
   selector: 'app-landing',
@@ -22,7 +24,10 @@ import { SectionsComponent } from "./components/sections/sections.component";
     CardRelevantComponent,
     FooterComponent,
     PublicidadComponent,
-    SectionsComponent
+    SectionsComponent,
+    CardNewComponent,
+    Notice1Component,
+    Notice2Component
 ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
