@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { PrimeNG } from 'primeng/config';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +12,9 @@ import { PrimeNGConfig } from 'primeng/api';
 export class AppComponent implements OnInit {
   title = 'comparamotors-front';
 
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(private primeNG: PrimeNG) {}
 
   ngOnInit() {
-    this.primengConfig.ripple = true;
+    this.primeNG.ripple.set(true);
   }
 }
