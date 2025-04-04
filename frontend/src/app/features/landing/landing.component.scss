@@ -10,7 +10,7 @@ $primary-accent: #0056b3;
 
 $spacing: 20px;
 $spacing-base: 1rem;
-$max-width: 1200px;
+$max-width: 100%;
 $border-radius: 8px;
 $box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -162,7 +162,7 @@ main {
   color: $color-light;
   padding: $spacing;
   margin-top: $spacing;
-  min-height: 25vh;
+  min-height: 10vh;
 }
 
 // Media queries for responsive design
