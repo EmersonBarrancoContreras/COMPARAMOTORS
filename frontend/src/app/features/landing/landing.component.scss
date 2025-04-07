@@ -1,4 +1,4 @@
-@use "sass:math";
+@use "sass:color";
 
 // Variables
 $color-primary: #f0f0f0;
@@ -111,7 +111,7 @@ main {
     > div {
       flex: 1;
       min-height: 150px;
-      background-color: darken($color-primary, 5%);
+      background-color: color.adjust($color-primary, $lightness: -5%);
       border-radius: $border-radius;
       padding: calc($spacing / 2);
     }
@@ -138,7 +138,7 @@ main {
     > div {
       flex: 1;
       min-height: 150px;
-      background-color: darken($color-primary, 3%);
+      background-color: color.adjust($color-primary, $lightness: -3%);
       border-radius: $border-radius;
       padding: calc($spacing / 2);
     }
@@ -148,7 +148,7 @@ main {
   .cta {
     @include section-base;
     width: 100%;
-    background-color: darken($color-primary, 10%);
+    background-color: color.adjust($color-primary, $lightness: -10%);
     color: $color-dark;
     text-align: center;
     padding: $spacing;

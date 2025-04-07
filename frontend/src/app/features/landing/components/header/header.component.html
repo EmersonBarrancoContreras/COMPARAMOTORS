@@ -2,7 +2,7 @@
   <p-button
     icon="pi pi-home"
     label="Inicio"
-    [severity]="'info'"
+    [severity]="'primary'"
     [raised]="true"
   ></p-button>
   <p-button
@@ -11,3 +11,8 @@
     [severity]="'secondary'"
   ></p-button>
 </section>
+
+<div class="">
+  <p-toast />
+  <p-button (onClick)="show()" label="Show" />
+</div>
