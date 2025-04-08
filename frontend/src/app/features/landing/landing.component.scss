@@ -3,7 +3,7 @@
 // Variables
 $color-primary: #f0f0f0;
 $color-header: #333;
-$color-cards: #f0f0f0;
+$color-cards: #ffffff;
 $color-dark: #333;
 $color-light: #fff;
 $primary-accent: #0056b3;
@@ -35,7 +35,8 @@ $box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 // Base styles
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -76,11 +77,11 @@ main {
   // Slider section
   .slider {
     width: 100%;
-    height: 50svh;
+    height: 60svh;
     margin-bottom: $spacing-base;
     border-radius: $border-radius;
     overflow: hidden;
-    background-color: $color-primary;
+    // background-color: $color-primary;
     padding: calc($spacing / 2);
   }
 
@@ -96,8 +97,9 @@ main {
       flex: 1;
       min-height: 150px;
       background-color: $color-cards;
-      border-radius: $border-radius;
+      border-radius: $border-radius; 
       padding: calc($spacing / 2);
+      box-shadow: $box-shadow;
     }
   }
 
@@ -111,9 +113,10 @@ main {
     > div {
       flex: 1;
       min-height: 150px;
-      background-color: color.adjust($color-primary, $lightness: -5%);
+      background-color: $color-cards;
       border-radius: $border-radius;
       padding: calc($spacing / 2);
+      box-shadow: $box-shadow;
     }
   }
 
@@ -126,6 +129,7 @@ main {
     padding: calc($spacing / 2);
     border-radius: $border-radius;
     box-sizing: border-box;
+    box-shadow: $box-shadow;
   }
 
   // Notice secondary con 3 divisiones iguales
@@ -138,9 +142,10 @@ main {
     > div {
       flex: 1;
       min-height: 150px;
-      background-color: color.adjust($color-primary, $lightness: -3%);
+      background-color: $color-cards;
       border-radius: $border-radius;
       padding: calc($spacing / 2);
+      box-shadow: $box-shadow;
     }
   }
 
@@ -148,11 +153,12 @@ main {
   .cta {
     @include section-base;
     width: 100%;
-    background-color: color.adjust($color-primary, $lightness: -10%);
+    background-color: $color-cards;
     color: $color-dark;
     text-align: center;
     padding: $spacing;
     min-height: 100px;
+    box-shadow: $box-shadow;
   }
 }
 
@@ -225,4 +231,12 @@ main {
       padding: calc($spacing-base * 0.75);
     }
   }
+}
+
+:host ::ng-deep .p-card {
+  background-color: $color-cards; // Fondo semitransparente
+  border-radius: 8px; // Bordes redondeados
+  border: none;
+  box-shadow: none;
+  color: $color-dark;
 }

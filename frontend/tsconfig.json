@@ -3,7 +3,8 @@
   "compilerOptions": {
     "paths": {
       "@shared/*": ["./src/app/shared/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@services/*": ["./src/app/core/services/*"],
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

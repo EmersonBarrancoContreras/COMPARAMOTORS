@@ -12,6 +12,7 @@ import { Notice3Component } from './components/notice-3/notice-3.component';
 import { Notice4Component } from './components/notice-4/notice-4.component';
 import { Notice5Component } from './components/notice-5/notice-5.component';
 import { Notice6Component } from './components/notice-6/notice-6.component';
+import { CardModule } from 'primeng/card';
 import { CtaComponent } from './components/cta/cta.component';
 
 @Component({
@@ -32,6 +33,7 @@ import { CtaComponent } from './components/cta/cta.component';
     Notice5Component,
     Notice6Component,
     CtaComponent,
+    CardModule,
   ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
