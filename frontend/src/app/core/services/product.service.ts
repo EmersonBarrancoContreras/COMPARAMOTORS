@@ -38,7 +38,7 @@ export class ProductService {
         category: 'Accessories',
         inventoryStatus: 'LOWSTOCK',
         rating: 4,
-        images: ['assets/img/foto.png'],
+        images: ['assets/img/foto2.jpg'],
       },
       {
         id: '1002',

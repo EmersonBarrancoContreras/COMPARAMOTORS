@@ -1,11 +1,13 @@
 <div class="card">
   <p-carousel
+    #carousel
     [value]="products"
     [numVisible]="1"
     [numScroll]="1"
     [circular]="true"
     [responsiveOptions]="responsiveOptions"
     autoplayInterval="3000"
+    (onPage)="onPageChange($event)"
   >
     <ng-template let-product #item>
       <div class="product-item">
@@ -15,6 +17,8 @@
               [src]="product.image"
               [alt]="product.name"
               class="product-image"
+              (click)="showImage(product)"
+              style="cursor: pointer"
             />
             <p-tag
               [value]="product.inventoryStatus"
@@ -24,7 +28,7 @@
           </div>
         </div>
         <div class="product-name">{{ product.name }}</div>
-        <div class="product-details">
+        <!-- <div class="product-details">
           <div class="product-price">
             {{ "$" + product.price }}
           </div>
@@ -34,13 +38,34 @@
               severity="secondary"
               [outlined]="true"
             />
-            <p-button
-              icon="pi pi-shopping-cart"
-              class="cart-button"
-            />
+            <p-button icon="pi pi-shopping-cart" class="cart-button" />
           </span>
-        </div>
+        </div> -->
       </div>
     </ng-template>
   </p-carousel>
+
+  <!-- Diálogo para mostrar la imagen -->
+  <p-dialog
+    [(visible)]="displayDialog"
+    [modal]="true"
+    [resizable]="false"
+    [draggable]="false"
+    styleClass="image-dialog"
+    [dismissableMask]="true"
+    [showHeader]="false"
+  >
+    <div class="dialog-image-container" *ngIf="selectedProduct">
+      <img
+        [src]="selectedProduct.images"
+        [alt]="selectedProduct.name"
+        class="full-image"
+      />
+      <div class="image-details">
+        <h3>{{ selectedProduct.name }}</h3>
+        <p>{{ selectedProduct.description }}</p>
+        <p class="price">{{ "$" + selectedProduct.price }}</p>
+      </div>
+    </div>
+  </p-dialog>
 </div>
