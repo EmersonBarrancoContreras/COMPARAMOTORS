@@ -1,0 +1,46 @@
+<div class="cards-container" [ngStyle]="getGridStyle()">
+  @for (item of items; track item.id) {
+  <div class="card-wrapper">
+    <p-card styleClass="news-card">
+      <ng-template pTemplate="header" *ngIf="showImage && item.image">
+        <div class="card-image-container">
+          <img [src]="item.image" [alt]="item.title" class="card-image" />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="title">
+        <div class="card-title">{{ item.title }}</div>
+      </ng-template>
+      <ng-template pTemplate="subtitle" *ngIf="item.date || item.author">
+        <div class="card-subtitle">
+          @if (item.date) {
+          <span class="card-date">{{ item.date | date : "mediumDate" }}</span>
+          } @if (item.author) {
+          <span class="card-author">por {{ item.author }}</span>
+          }
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        @if (showDescription && item.description) {
+        <div class="card-description">
+          {{ truncateDescription(item.description) }}
+        </div>
+        } @if (item.category) {
+        <p-tag [value]="item.category" styleClass="card-category"></p-tag>
+        }
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <div class="card-footer">
+          <p-button
+            label="Leer más"
+            icon="pi pi-arrow-right"
+            styleClass="p-button-text"
+            (onClick)="onCardClick(item)"
+          ></p-button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+  } @empty {
+  <div class="no-items">No hay noticias disponibles</div>
+  }
+</div>
