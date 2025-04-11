@@ -6,9 +6,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { Seccion1Component } from './components/seccion-1/seccion-1.component';
 import { Seccion2Component } from './components/seccion-2/seccion-2.component';
 import { Seccion3Component } from './components/seccion-3/seccion-3.component';
-import { Notice4Component } from './components/notice-4/notice-4.component';
-import { Notice5Component } from './components/notice-5/notice-5.component';
-import { Notice6Component } from './components/notice-6/notice-6.component';
 import { CardModule } from 'primeng/card';
 import { CtaComponent } from './components/cta/cta.component';
 import { NewsComponent } from '../../shared/components/news/news.component';
@@ -24,9 +21,6 @@ import { NewsComponent } from '../../shared/components/news/news.component';
     Seccion1Component,
     Seccion2Component,
     Seccion3Component,
-    Notice4Component,
-    Notice5Component,
-    Notice6Component,
     CtaComponent,
     CardModule,
     NewsComponent,

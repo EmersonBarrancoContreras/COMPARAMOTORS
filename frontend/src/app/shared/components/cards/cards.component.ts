@@ -16,7 +16,7 @@ export class CardsComponent {
   @Input() columns: number = 3; // Número de columnas para el diseño de la cuadrícula
   @Input() showImage: boolean = true; // Mostrar u ocultar la imagen
   @Input() showDescription: boolean = true; // Mostrar u ocultar la descripción
-  @Input() maxDescriptionLength: number = 150; // Longitud máxima de la descripción
+  @Input() maxDescriptionLength: number = 150; // Longitud máxima de la descripción   
 
   @Output() cardClick = new EventEmitter<News>();
 
@@ -33,7 +33,7 @@ export class CardsComponent {
     this.cardClick.emit(item);
   }
 
-  // Método para obtener el estilo de la cuadrícula 
+  // Método para obtener el estilo de la cuadrícula
   getGridStyle(): { [key: string]: string } {
     return {
       display: 'grid',

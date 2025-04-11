@@ -39,7 +39,7 @@ export class NewsComponent implements OnInit {
         title: 'Consejos para el mantenimiento de tu auto',
         description:
           'Aprende los mejores consejos para mantener tu auto en óptimas condiciones y prolongar su vida útil.',
-        image: 'assets/img/foto3.jpg',
+        image: 'assets/img/foto.png',
         date: new Date(),
         author: 'Luis Martínez',
         category: 'Mantenimiento',
@@ -49,14 +49,14 @@ export class NewsComponent implements OnInit {
         title: 'Tendencias en tecnología automotriz 2024',
         description:
           'Explora las últimas tendencias en tecnología automotriz, desde vehículos autónomos hasta conectividad avanzada.',
-        image: 'assets/img/foto4.jpg',
+        image: 'assets/img/foto.png',
       },
       {
         id: '5',
         title: 'Los mejores autos deportivos del año',
         description:
           'Descubre los mejores autos deportivos del año, con un análisis de su rendimiento y diseño.',
-        image: 'assets/img/foto5.jpg',
+        image: 'assets/img/foto.png',
         date: new Date(),
         author: 'María López',
         category: 'Deportivos',
