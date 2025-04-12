@@ -76,7 +76,7 @@ main {
 
   // Slider section
   .slider {
-    width: 100%;
+    width: 70%;
     height: 70vh;
     margin-bottom: $spacing-base;
     border-radius: $border-radius;
@@ -104,21 +104,21 @@ main {
   }
 
   // Notice primary con 3 divisiones iguales
-  // .notice-primary {
-  //   @include section-base;
-  //   display: flex;
-  //   width: 100%;
-  //   gap: $spacing;
+  .notice-primary {
+    @include section-base;
+    display: flex;
+    width: 100%;
+    gap: $spacing;
 
-  //   > div {
-  //     flex: 1;
-  //     min-height: 150px;
-  //     background-color: $color-cards;
-  //     border-radius: $border-radius;
-  //     padding: calc($spacing / 2);
-  //     box-shadow: $box-shadow;
-  //   }
-  // }
+    > div {
+      flex: 1;
+      min-height: 150px;
+      background-color: $color-cards;
+      border-radius: $border-radius;
+      padding: calc($spacing / 2);
+      box-shadow: $box-shadow;
+    }
+  }
 
   // Publicity - ancho completo
   .publicity {
