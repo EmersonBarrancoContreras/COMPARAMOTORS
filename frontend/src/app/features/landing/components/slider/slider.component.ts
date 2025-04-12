@@ -74,7 +74,7 @@ export class SliderComponent implements OnInit {
       if (this.carousel) {
         this.carousel.startAutoplay();
       }
-    }, 3000);
+    }, 5000);
   }
 
   // Método para mostrar el diálogo con la imagen del producto

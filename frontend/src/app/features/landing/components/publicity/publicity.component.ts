@@ -5,8 +5,10 @@ import {
   OnDestroy,
   ElementRef,
   ViewChild,
+  PLATFORM_ID,
+  Inject
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-publicity',
@@ -30,32 +32,44 @@ export class PublicityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Variables para la animación
   private animationFrameId: number = 0;
-  private scrollSpeed: number = 1; // Velocidad de desplazamiento (píxeles por frame)
+  private scrollSpeed: number = 1;
   private itemWidth: number = 0;
   private itemsCount: number = 0;
   private allItems: NodeListOf<HTMLElement> | null = null;
   displayImages: string[] = [];
 
-  constructor() {}
+  // Variable para verificar si estamos en el navegador
+  private isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
     this.displayImages = [...this.images, ...this.images];
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      // Necesario para que Angular complete la renderización
-      this.setupGallery();
-      this.startAnimation();
-    }, 100);
+    // Solo ejecutar en el navegador
+    if (this.isBrowser) {
+      setTimeout(() => {
+        this.setupGallery();
+        this.startAnimation();
+      }, 100);
+    }
   }
 
   ngOnDestroy(): void {
-    this.stopAnimation();
+    if (this.isBrowser) {
+      this.stopAnimation();
+    }
   }
 
   // Inicialización de la galería
   private setupGallery(): void {
+    // Verificar que estamos en el navegador
+    if (!this.isBrowser) return;
+
     const container = this.galleryContainer.nativeElement;
     this.allItems = container.querySelectorAll('.gallery-item');
     this.itemsCount = this.allItems ? this.allItems.length : 0;
@@ -69,7 +83,7 @@ export class PublicityComponent implements OnInit, AfterViewInit, OnDestroy {
         parseInt(itemStyle.marginLeft || '0') +
         parseInt(itemStyle.marginRight || '0');
 
-      // Duplicar suficientes elementos para cubrir al menos 2 veces el ancho visible
+      // Duplicar elementos para el efecto continuo
       const viewportWidth = window.innerWidth;
       const itemsNeeded = Math.ceil(viewportWidth / this.itemWidth) * 2;
 
@@ -86,6 +100,8 @@ export class PublicityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Iniciar animación con efecto continuo
   private startAnimation(): void {
+    if (!this.isBrowser) return;
+
     const container = this.galleryContainer.nativeElement;
     let currentPosition = 0;
 
@@ -119,18 +135,22 @@ export class PublicityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Detener animación
   private stopAnimation(): void {
-    if (this.animationFrameId) {
+    if (this.isBrowser && this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }
   }
 
   // Pausar la animación al pasar el cursor
   pauseAnimation(): void {
-    this.stopAnimation();
+    if (this.isBrowser) {
+      this.stopAnimation();
+    }
   }
 
   // Reanudar la animación al quitar el cursor
   resumeAnimation(): void {
-    this.startAnimation();
+    if (this.isBrowser) {
+      this.startAnimation();
+    }
   }
 }

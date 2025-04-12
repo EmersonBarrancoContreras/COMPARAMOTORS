@@ -23,23 +23,38 @@ img {
   margin: 8px;
   padding: 16px;
   width: 100%;
+  display: flex; // Añadimos flexbox para organizar imagen y texto
+  flex-direction: row; // Elementos en fila (horizontal)
+  align-items: center; // Centrar verticalmente
+  gap: 20px; // Espacio entre imagen y texto
 }
 
+// Contenedor de imagen ahora ocupa el lado izquierdo
 .product-image-container {
-  margin-bottom: 16px;
-  width: 100%;
+  margin-bottom: 0; // Eliminamos el margen inferior
+  width: 40%; // Imagen ocupa el 40% del ancho
+  flex-shrink: 0; // Evita que la imagen se encoja
+}
+
+// Contenedor de texto ahora ocupa el lado derecho
+.product-content {
+  width: 60%; // Texto ocupa el 60% del ancho
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .product-image-wrapper {
   position: relative;
-  margin: 0 auto;
+  margin: 0;
   width: 100%;
+  height: 100%;
 }
 
 .product-image {
   width: 100%;
   height: auto;
-  max-height: 220px;
+  max-height: 300px; // Aumentamos altura máxima
   object-fit: cover;
   display: block;
 }
@@ -134,6 +149,22 @@ img {
       font-size: 1.5rem;
       font-weight: 700;
       color: #2196f3;
-    } 
+    }
+  }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .product-item {
+    flex-direction: column; // En móviles, apila verticalmente
+  }
+
+  .product-image-container,
+  .product-content {
+    width: 100%; // Ambos ocupan el ancho completo
+  }
+
+  .product-image-container {
+    margin-bottom: 16px; // Añadimos separación entre imagen y texto
   }
 }
