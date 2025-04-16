@@ -25,20 +25,20 @@ img {
   width: 100%;
   display: flex; // Añadimos flexbox para organizar imagen y texto
   flex-direction: row; // Elementos en fila (horizontal)
-  align-items: center; // Centrar verticalmente
-  gap: 20px; // Espacio entre imagen y texto
+  align-items: start; // Alineamos al inicio
+  gap: 10%; // Espacio entre imagen y texto
 }
 
 // Contenedor de imagen ahora ocupa el lado izquierdo
 .product-image-container {
-  margin-bottom: 0; // Eliminamos el margen inferior
-  width: 40%; // Imagen ocupa el 40% del ancho
-  flex-shrink: 0; // Evita que la imagen se encoja
+  margin-bottom: 0;
+  width: 40%;
+  flex-shrink: 0;
 }
 
 // Contenedor de texto ahora ocupa el lado derecho
 .product-content {
-  width: 60%; // Texto ocupa el 60% del ancho
+  width: 60%; // Texto ocupa el 50% del ancho
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,13 +67,11 @@ img {
 
 .product-name {
   margin-bottom: 16px;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .product-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .product-price {
@@ -84,6 +82,7 @@ img {
 
 .product-actions {
   display: flex;
+  flex-direction: row;
 }
 
 .cart-button {

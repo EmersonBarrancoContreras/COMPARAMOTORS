@@ -20,8 +20,9 @@ export class ProductService {
     return Promise.resolve([
       {
         id: '1000',
-        name: 'Bamboo Watch',
-        description: 'Product Description',
+        name: 'LOREM IPSUM DOLOR SIT AMET CONSECTETUR ADIPISICING ELIT SUSCIPIT QUIS',
+        description:
+          'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum',
         price: 65,
         quantity: 24,
         category: 'Accessories',
@@ -32,7 +33,8 @@ export class ProductService {
       {
         id: '1001',
         name: 'Black Watch',
-        description: 'Product Description',
+        description:
+          'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum',
         price: 72,
         quantity: 61,
         category: 'Accessories',
@@ -43,7 +45,8 @@ export class ProductService {
       {
         id: '1002',
         name: 'Blue Band',
-        description: 'Product Description',
+        description:
+          'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum',
         price: 79,
         quantity: 2,
         category: 'Fitness',

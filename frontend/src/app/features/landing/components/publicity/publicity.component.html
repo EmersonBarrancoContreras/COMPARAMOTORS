@@ -1,13 +1,45 @@
-<div class="gallery-wrapper">
-  <div class="gallery-track" #galleryContainer>
+<div class="warframe-showcase">
+  <!-- Selector lateral con miniaturas -->
+  <div class="showcase-selector">
     @for (image of images; track $index) {
-    <div class="gallery-item">
-      <img
-        [src]="image"
-        [alt]="'Publicidad ' + ($index + 1)"
-        class="gallery-image"
-      />
-    </div>
+      <div
+        class="selector-item"
+        [class.active]="currentIndex === $index"
+        (click)="selectItem($index)"
+      >
+        <div class="selector-thumbnail">
+          <img [src]="image" [alt]="'Item ' + ($index + 1)" />
+        </div>
+        <div class="selector-line"></div>
+      </div>
     }
+  </div>
+
+  <!-- Panel de información principal -->
+  <div class="showcase-main" #showcaseMain>
+    <div class="showcase-content" [style.transform]="'translateY(' + (-currentIndex * 100) + '%)'">
+      @for (item of showcaseItems; track $index) {
+        <div class="showcase-item">
+          <div class="item-image">
+            <img [src]="item.image" [alt]="item.title" />
+          </div>
+          <div class="item-info">
+            <h2 class="item-title">{{ item.title }}</h2>
+            <div class="item-category">{{ item.category }}</div>
+            <p class="item-description">{{ item.description }}</p>
+            <div class="item-details">
+              <div class="detail" *ngFor="let detail of item.details">
+                <span class="detail-label">{{ detail.label }}:</span>
+                <span class="detail-value">{{ detail.value }}</span>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-button primary">Ver más</button>
+              <button class="action-button secondary">Compartir</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
   </div>
 </div>
