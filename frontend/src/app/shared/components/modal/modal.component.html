@@ -1,0 +1,15 @@
+<div class="card">
+  <p-button (click)="showDialog()" label="Show" />
+  <p-dialog
+    header="Header"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [maximizable]="true"
+  >
+    <div>
+      <app-publicity />
+    </div>
+  </p-dialog>
+</div>

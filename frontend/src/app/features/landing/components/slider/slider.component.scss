@@ -71,9 +71,6 @@ img {
   font-weight: 700;
 }
 
-.product-details {
-}
-
 .product-price {
   margin-top: 0;
   font-weight: 600;
@@ -126,12 +123,12 @@ img {
 
 .dialog-image-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: start;
 
   .full-image {
     width: 100%;
-    max-height: 68vh;
+    max-height: 50vh;
     object-fit: contain;
   }
 

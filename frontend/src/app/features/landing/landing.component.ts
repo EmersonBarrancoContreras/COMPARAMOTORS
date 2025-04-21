@@ -9,6 +9,7 @@ import { Seccion3Component } from './components/seccion-3/seccion-3.component';
 import { CardModule } from 'primeng/card';
 import { CtaComponent } from './components/cta/cta.component';
 import { NewsComponent } from '../../shared/components/news/news.component';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-landing',
@@ -16,7 +17,6 @@ import { NewsComponent } from '../../shared/components/news/news.component';
   imports: [
     FooterComponent,
     SliderComponent,
-    PublicityComponent,
     HeaderComponent,
     Seccion1Component,
     Seccion2Component,
@@ -24,6 +24,7 @@ import { NewsComponent } from '../../shared/components/news/news.component';
     CtaComponent,
     CardModule,
     NewsComponent,
+    ModalComponent,
   ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',

@@ -17,8 +17,8 @@
               [src]="product.image"
               [alt]="product.name"
               class="product-image"
-              (click)="showImage(product)"
               style="cursor: pointer"
+              (click)="showImage(product)"
             />
             <p-tag
               [value]="product.inventoryStatus"
@@ -53,12 +53,12 @@
   <!-- Diálogo para mostrar la imagen -->
   <p-dialog
     [(visible)]="displayDialog"
+    header="Header"
     [modal]="true"
-    [resizable]="false"
-    [draggable]="false"
-    styleClass="image-dialog"
-    [dismissableMask]="true"
-    [showHeader]="false"
+    [(visible)]="visible"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [maximizable]="true"
   >
     <div class="dialog-image-container" *ngIf="selectedProduct">
       <img
@@ -68,7 +68,6 @@
       />
       <div class="image-details">
         <h3>{{ selectedProduct.name }}</h3>
-        <p>{{ selectedProduct.description }}</p>
         <p class="price">{{ "$" + selectedProduct.price }}</p>
       </div>
     </div>

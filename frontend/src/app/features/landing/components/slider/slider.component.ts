@@ -22,6 +22,7 @@ import { DialogModule } from 'primeng/dialog';
 })
 export class SliderComponent implements OnInit {
   @ViewChild('carousel') carousel!: Carousel; // Referencia al carrusel de PrimeNG
+  visible: boolean = false; // Control para mostrar/ocultar el diálogo
   autoplayerTimer: any; // Temporizador para el carrusel automático
 
   products: Product[] = []; // Lista de productos a mostrar en el carrusel
