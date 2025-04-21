@@ -109,6 +109,7 @@ export class PublicityComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.images = this.showcaseItems.map(item => item.image);
     // Asegúrate de que hay suficientes elementos de showcase para cada imagen
     if (this.showcaseItems.length < this.images.length) {
       // Rellenar con elementos duplicados si es necesario
@@ -124,5 +125,13 @@ export class PublicityComponent implements OnInit {
   // Método para seleccionar un elemento
   selectItem(index: number): void {
     this.currentIndex = index;
+    console.log('Elemento seleccionado:', index, this.showcaseItems[index]?.title);
+  }
+
+  ngAfterViewInit(): void {
+    // Asegúrate de que el elemento inicial está seleccionado correctamente
+    setTimeout(() => {
+      this.selectItem(0);
+    }, 0);
   }
 }
