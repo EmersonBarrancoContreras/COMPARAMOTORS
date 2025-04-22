@@ -82,6 +82,19 @@ export class SliderComponent implements OnInit {
   showImage(product: Product) {
     this.selectedProduct = product;
     this.displayDialog = true;
+    document.body.classList.add('modal-open');
+  }
+
+  // Añadimos un setter para detectar cambios en displayDialog
+  set dialogVisible(value: boolean) {
+    this.displayDialog = value;
+    if (!value) {
+      document.body.classList.remove('modal-open');
+    }
+  }
+
+  get dialogVisible(): boolean {
+    return this.displayDialog;
   }
 
   // Método para obtener la clase CSS del producto según su estado

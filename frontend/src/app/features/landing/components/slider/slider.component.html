@@ -52,13 +52,11 @@
 
   <!-- Diálogo para mostrar la imagen -->
   <p-dialog
-    [(visible)]="displayDialog"
+    [(visible)]="dialogVisible"
     header="Header"
     [modal]="true"
-    [(visible)]="visible"
     [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-    [maximizable]="true"
   >
     <div class="dialog-image-container" *ngIf="selectedProduct">
       <img
@@ -68,7 +66,12 @@
       />
       <div class="image-details">
         <h3>{{ selectedProduct.name }}</h3>
-        <p class="price">{{ "$" + selectedProduct.price }}</p>
+        <p class="description">{{ selectedProduct.description }}</p>
+        <p-button
+          class="ver-mas-button"
+          icon="pi pi-iconName"
+          label="Ver más"
+        ></p-button>
       </div>
     </div>
   </p-dialog>

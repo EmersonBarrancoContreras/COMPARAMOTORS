@@ -38,7 +38,7 @@ img {
 
 // Contenedor de texto ahora ocupa el lado derecho
 .product-content {
-  width: 60%; // Texto ocupa el 50% del ancho
+  width: 60%; // Texto ocupa el 60% del ancho
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -145,6 +145,11 @@ img {
       font-size: 1.5rem;
       font-weight: 700;
       color: #2196f3;
+    }
+
+    .ver-mas-button{
+      display: flex;
+      justify-content: end;
     }
   }
 }
