@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PublicityComponent } from './publicity.component';
+import { NewsInfiniteComponent } from './news-infinite.component';
 
-describe('PublicityComponent', () => {
-  let component: PublicityComponent;
-  let fixture: ComponentFixture<PublicityComponent>;
+describe('NewsInfiniteComponent', () => {
+  let component: NewsInfiniteComponent;
+  let fixture: ComponentFixture<NewsInfiniteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PublicityComponent]
+      imports: [NewsInfiniteComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PublicityComponent);
+    fixture = TestBed.createComponent(NewsInfiniteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

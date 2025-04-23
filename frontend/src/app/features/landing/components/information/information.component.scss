@@ -1,0 +1,422 @@
+.gallery-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 20px 0;
+  background-color: #f9f9f9;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(
+      to right,
+      rgba(249, 249, 249, 1),
+      rgba(249, 249, 249, 0)
+    );
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(
+      to left,
+      rgba(249, 249, 249, 1),
+      rgba(249, 249, 249, 0)
+    );
+  }
+}
+
+.gallery-track {
+  display: flex;
+  align-items: center;
+  animation: scroll-left 30s linear infinite;
+  will-change: transform;
+
+  /* Reducimos el espacio entre imágenes */
+  gap: 5px;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Desplazamos exactamente el ancho de un conjunto completo de imágenes originales */
+    transform: translateX(
+      calc(-1830px)
+    ); /* Ajustar según el ancho total de tus 6 imágenes */
+  }
+}
+
+.gallery-item {
+  flex: 0 0 auto;
+  padding: 0 5px; /* Reducimos el padding */
+  width: 300px;
+  margin: 0; /* Eliminamos los márgenes */
+  box-sizing: border-box;
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Pausar animación al pasar el cursor
+.gallery-wrapper:hover .gallery-track {
+  animation-play-state: paused;
+}
+
+// Estilos responsivos
+@media (max-width: 768px) {
+  .gallery-item {
+    width: 220px;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-1350px)); /* Ajustar según tus imágenes */
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .gallery-item {
+    width: 180px;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-1110px)); /* Ajustar según tus imágenes */
+    }
+  }
+}
+
+.warframe-showcase {
+  display: flex;
+  height: 500px;
+  width: 100%;
+  background-color: #0a0e14;
+  color: white;
+  font-family: "Rajdhani", sans-serif;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 150, 255, 0.3);
+
+  // Añadir una textura sutil para el fondo
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDkwYjBmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMxMTE1MWMiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=");
+    opacity: 0.4;
+    z-index: 0;
+  }
+}
+
+// Selector lateral con miniaturas
+.showcase-selector {
+  width: 80px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #070a10;
+  z-index: 1;
+  padding: 15px 0;
+}
+
+.selector-item {
+  height: 70px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+
+  &.active {
+    .selector-thumbnail {
+      border-color: #2196f3;
+      box-shadow: 0 0 10px rgba(33, 150, 243, 0.6);
+    }
+
+    .selector-line {
+      background-color: #2196f3;
+      width: 100%;
+    }
+  }
+
+  &:hover:not(.active) {
+    .selector-thumbnail {
+      border-color: rgba(33, 150, 243, 0.5);
+    }
+
+    .selector-line {
+      width: 70%;
+      background-color: rgba(33, 150, 243, 0.5);
+    }
+  }
+}
+
+.selector-thumbnail {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #2a3040;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  transition: all 0.3s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.selector-line {
+  height: 3px;
+  width: 30%;
+  background-color: #2a3040;
+  transition: all 0.3s ease;
+}
+
+// Panel principal con contenido
+.showcase-main {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.showcase-content {
+  position: absolute;
+  width: 100%;
+  height: 500%; // 5 veces la altura para 5 elementos
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.showcase-item {
+  height: 20%; // 100% ÷ 5 elementos
+  display: flex;
+  padding: 20px;
+}
+
+.item-image {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(33, 150, 243, 0.5));
+    transition: all 0.5s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 12px rgba(33, 150, 243, 0.7));
+    }
+  }
+}
+
+.item-info {
+  width: 60%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.item-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: #2196f3;
+  text-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+  letter-spacing: 1px;
+
+  // Efecto de corte en esquinas como en Warframe
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: -5px;
+    left: 0;
+    border-bottom: 3px solid #2196f3;
+    border-left: 3px solid #2196f3;
+  }
+}
+
+.item-category {
+  font-size: 0.9rem;
+  color: #8e97a7;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.item-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #c7cdd9;
+}
+
+.item-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+
+  .detail {
+    background-color: rgba(33, 150, 243, 0.1);
+    border-left: 3px solid #2196f3;
+    padding: 8px 12px;
+
+    .detail-label {
+      display: block;
+      font-size: 0.85rem;
+      color: #8e97a7;
+      margin-bottom: 3px;
+    }
+
+    .detail-value {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.item-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+  transition: all 0.2s ease;
+
+  &.primary {
+    background-color: #2196f3;
+    color: white;
+
+    &:hover {
+      background-color: #0d8aef;
+      box-shadow: 0 0 15px rgba(33, 150, 243, 0.5);
+    }
+  }
+
+  &.secondary {
+    background-color: transparent;
+    border: 2px solid #2196f3;
+    color: #2196f3;
+
+    &:hover {
+      background-color: rgba(33, 150, 243, 0.1);
+    }
+  }
+}
+
+// Media queries para responsividad
+@media (max-width: 992px) {
+  .warframe-showcase {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .showcase-selector {
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .selector-item {
+    height: auto;
+    margin: 0 5px;
+  }
+
+  .showcase-content {
+    position: relative;
+    height: auto;
+    transform: none !important;
+  }
+
+  .showcase-item {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .item-image,
+  .item-info {
+    width: 100%;
+  }
+
+  .item-image {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .item-details {
+    grid-template-columns: 1fr;
+  }
+
+  .item-actions {
+    flex-direction: column;
+  }
+
+  .item-title {
+    font-size: 1.8rem;
+  }
+}

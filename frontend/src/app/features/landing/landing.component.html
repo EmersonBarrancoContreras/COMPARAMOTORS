@@ -3,15 +3,15 @@
 </header>
 
 <main>
-  <section>
-    <div class="slider">
+  <section class="slider">
+    <div>
       <app-slider />
     </div>
   </section>
 
   <section class="sections">
     <div>
-      <p-card header="Sección 1">
+      <p-card>
         <app-seccion-1 />
       </p-card>
     </div>
@@ -25,6 +25,16 @@
         <app-seccion-3 />
       </p-card>
     </div>
+    <div class="">
+      <p-card header="Sección 4">
+        <app-seccion-4 />
+      </p-card>
+    </div>
+    <div class="">
+      <p-card header="Sección 5">
+        <app-seccion-5 />
+      </p-card>
+    </div>
   </section>
 
   <section class="notice-primary">
@@ -36,22 +46,15 @@
   </section>
 
   <section class="publicity">
-    <app-modal />
+    <app-publicity />
   </section>
 
   <section class="notice-secondary">
     <div>
-      <p-card header="Noticia 4"> </p-card>
+      <p-card>
+        <app-news-infinite />
+      </p-card>
     </div>
-    <div>
-      <p-card header="Noticia 5"> </p-card>
-    </div>
-    <div>
-      <p-card header="Noticia 6"> </p-card>
-    </div>
-    <div></div>
-    <div></div>
-    <div></div>
   </section>
 
   <section class="cta">

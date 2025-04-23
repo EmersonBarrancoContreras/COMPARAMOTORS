@@ -1,0 +1,54 @@
+<div class="news-container">
+  <h2 class="news-title">Últimas Noticias</h2>
+
+  <div class="grid">
+    @for (item of visibleNews(); track item.id) {
+    <div class="col-item">
+      <p-card styleClass="news-card">
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <img [src]="item.imageUrl" [alt]="item.title" class="card-image" />
+          </div>
+        </ng-template>
+
+        <div class="card-content">
+          <h3 class="card-title">{{ item.title }}</h3>
+          <p class="card-description">{{ item.description }}</p>
+        </div>
+
+        <ng-template pTemplate="footer">
+          <div class="card-footer">
+            <p-button
+              label="Leer más"
+              icon="pi pi-arrow-right"
+              styleClass="p-button-text"
+            ></p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+    } @empty {
+    <div class="empty-state">
+      <p>No hay noticias disponibles</p>
+    </div>
+    }
+  </div>
+
+  <div class="load-more-container">
+    @if (loading()) {
+    <p-progressSpinner styleClass="loader" strokeWidth="4"></p-progressSpinner>
+    } @else if (hasMoreNews()) {
+    <p-button
+      label="Ver más"
+      icon="pi pi-plus"
+      class="font-bold"
+      [raised]="true"
+      (onClick)="loadMoreNews()"
+      [disabled]="loading()"
+    >
+    </p-button>
+    } @else if (news().length > 0) {
+    <p class="end-message">No hay más noticias disponibles</p>
+    }
+  </div>
+</div>
