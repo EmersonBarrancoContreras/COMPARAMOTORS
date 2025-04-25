@@ -7,6 +7,7 @@ $color-cards: #ffffff;
 $color-dark: #333;
 $color-light: #fff;
 $primary-accent: #0056b3;
+$secondary-accent: #c1121f;
 
 $spacing: 20px;
 $spacing-base: 1rem;
@@ -63,6 +64,7 @@ body {
   top: 0;
   z-index: 100;
   box-shadow: $box-shadow;
+  border-radius: 0 0 20px 20px;
 }
 
 main {
@@ -89,8 +91,8 @@ main {
   .sections {
     @include section-base;
     display: grid;
-    grid-template-columns: repeat(6, 1fr); // 6 columnas de igual tamaño
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(1, 1fr); // 6 columnas de igual tamaño
+    grid-template-rows: auto auto; // 2 filas de altura automática
     width: 100%;
     gap: $spacing;
     background-color: $color-light;
@@ -102,28 +104,6 @@ main {
       padding: calc($spacing / 2);
       box-shadow: $box-shadow;
     }
-
-    // Distribución específica de las secciones
-    > div:nth-child(1) {
-      grid-column: 1 / span 2;
-      grid-row: 1;
-    } // Primera sección (ocupa 2 columnas)
-    > div:nth-child(2) {
-      grid-column: 3 / span 2;
-      grid-row: 1;
-    } // Segunda sección (ocupa 2 columnas)
-    > div:nth-child(3) {
-      grid-column: 5 / span 2;
-      grid-row: 1;
-    } // Tercera sección (ocupa 2 columnas)
-    > div:nth-child(4) {
-      grid-column: 2 / span 2;
-      grid-row: 2;
-    } // Cuarta sección (mitad izquierda, ocupa 3 columnas)
-    > div:nth-child(5) {
-      grid-column: 4 / span 2;
-      grid-row: 2;
-    } // Quinta sección (mitad derecha, ocupa 3 columnas)
   }
 
   // Notice primary con 3 divisiones iguales
@@ -155,20 +135,82 @@ main {
     // box-shadow: $box-shadow;
   }
 
+  .section-news {
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .news-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+  }
+
+  .img-news {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
   // Notice secondary con 3 divisiones iguales
   .notice-secondary {
     @include section-base;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
     width: 100%;
+    max-height: 220vh;
     gap: $spacing;
 
     > div {
-      flex: 1;
+      // Eliminar flex: 1 ya que estamos usando grid
       min-height: 150px;
+      max-height: 220vh; // Usar vh en lugar de rem para una altura relativa
       background-color: $color-cards;
       border-radius: $border-radius;
       padding: calc($spacing / 2);
       box-shadow: $box-shadow;
+
+      // Configuración correcta del scroll
+      overflow-y: auto; // auto en lugar de scroll para mostrar barras solo cuando sea necesario
+      scroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: $secondary-accent $color-light;
+
+      // Evitar que el contenido interno se desborde horizontalmente
+      > * {
+        max-width: 100%;
+      }
+
+      > .scrollable-content {
+        width: 100%;
+        height: auto; // La altura se ajusta al contenido
+
+        // Prevenir desbordamiento horizontal
+        > * {
+          max-width: 100%;
+        }
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $color-light;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: $secondary-accent;
+        border-radius: 4px;
+      }
+    }
+
+    > div:nth-child(1) {
+      grid-column: 2 / span 8;
+      grid-row: 1;
     }
   }
 

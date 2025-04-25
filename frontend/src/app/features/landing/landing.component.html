@@ -15,30 +15,13 @@
         <app-seccion-1 />
       </p-card>
     </div>
-    <div>
-      <p-card header="Sección 2">
-        <app-seccion-2 />
-      </p-card>
-    </div>
-    <div>
-      <p-card header="Sección 3">
-        <app-seccion-3 />
-      </p-card>
-    </div>
-    <div class="">
-      <p-card header="Sección 4">
-        <app-seccion-4 />
-      </p-card>
-    </div>
-    <div class="">
-      <p-card header="Sección 5">
-        <app-seccion-5 />
-      </p-card>
-    </div>
   </section>
 
-  <section class="notice-primary">
-    <div>
+  <section class="section-news">
+    <div class="img-news">
+      <img src="assets/img/logo/news2.png" alt="Noticias" width="40%" />
+    </div>
+    <div class="notice-primary">
       <p-card>
         <app-news />
       </p-card>
@@ -49,16 +32,21 @@
     <app-publicity />
   </section>
 
-  <section class="notice-secondary">
-    <div>
-      <p-card>
-        <app-news-infinite />
-      </p-card>
+  <section>
+    <div class="news-title">
+      <img src="assets/img/news1.png" alt="" width="20%" />
+    </div>
+    <div class="notice-secondary">
+      <div class="scrollable-content">
+        <p-card>
+          <app-news-infinite />
+        </p-card>
+      </div>
     </div>
   </section>
 
   <section class="cta">
-    <app-cta />
+    <app-publicity />
   </section>
 </main>
 

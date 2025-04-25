@@ -110,6 +110,37 @@ img {
   margin-bottom: auto;
 }
 
+:host ::ng-deep .p-carousel-indicator-button:hover {
+  background: #c1121f;
+}
+
+:host ::ng-deep .p-carousel-indicator-active .p-carousel-indicator-button {
+  background: #c1121f;
+}
+
+:host ::ng-deep .p-button-secondary,
+:host ::ng-deep .p-button-text {
+  &:hover {
+    background-color: #c1121f !important;
+    color: #ffffff !important; // Color blanco para el texto
+
+    .p-button-text,
+    .p-button-secondary {
+      color: #ffffff !important; // Color rojo para el icono
+    }
+  }
+
+  // Estado activo (al hacer clic)
+  &:active {
+    background: #c1121f !important;
+
+    .p-carousel-prev-icon,
+    .p-carousel-next-icon {
+      color: #ffffff !important;
+    }
+  }
+}
+
 /* Estilos para el diálogo y la imagen ampliada */
 :host ::ng-deep .image-dialog {
   max-width: 90vw;
@@ -147,7 +178,7 @@ img {
       color: #2196f3;
     }
 
-    .ver-mas-button{
+    .ver-mas-button {
       display: flex;
       justify-content: end;
     }

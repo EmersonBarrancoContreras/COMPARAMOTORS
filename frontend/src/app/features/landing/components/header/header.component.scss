@@ -1,6 +1,16 @@
-.buttons{
-  display: flex;
-  justify-content: end;
-  gap: 10px;
+.section-1 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+  }
 }
- 

@@ -1,7 +1,5 @@
 <div class="news-container">
-  <h2 class="news-title">Últimas Noticias</h2>
-
-  <div class="grid">
+  <div class="grid" *ngIf="!error()">
     @for (item of visibleNews(); track item.id) {
     <div class="col-item">
       <p-card styleClass="news-card">
@@ -28,10 +26,20 @@
       </p-card>
     </div>
     } @empty {
-    <div class="empty-state">
+    <div class="empty-state" *ngIf="!loading()">
       <p>No hay noticias disponibles</p>
     </div>
     }
+  </div>
+
+  <!-- Estado de error -->
+  <div class="error-state" *ngIf="error()">
+    <p>Ha ocurrido un error al cargar las noticias</p>
+    <p-button
+      label="Reintentar"
+      icon="pi pi-refresh"
+      (onClick)="retry()"
+    ></p-button>
   </div>
 
   <div class="load-more-container">
@@ -41,13 +49,12 @@
     <p-button
       label="Ver más"
       icon="pi pi-plus"
-      class="font-bold"
       [raised]="true"
       (onClick)="loadMoreNews()"
       [disabled]="loading()"
     >
     </p-button>
-    } @else if (news().length > 0) {
+    } @else if (news().length > 0 && !error()) {
     <p class="end-message">No hay más noticias disponibles</p>
     }
   </div>

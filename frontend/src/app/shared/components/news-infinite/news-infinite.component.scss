@@ -103,4 +103,17 @@
     color: var(--text-secondary-color);
     font-size: 1.25rem;
   }
+
+  .error-state {
+    width: 100%;
+    text-align: center;
+    padding: 3rem 1rem;
+    margin: 2rem 0;
+    color: #f44336;
+
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+  }
 }
