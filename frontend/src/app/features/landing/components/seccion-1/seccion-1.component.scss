@@ -23,9 +23,20 @@
   min-width: 60px; // Ancho mínimo en lugar de transform
   transform: skewX(15deg);
 
+  // Estilo para las imágenes
+  img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.5s ease;
+    transform: skewX(-15deg) scale(1.5); // Compensamos la inclinación del contenedor
+    z-index: 1;
+  }
+
   // Pseudo-elemento para el borde con efecto de brillo
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -36,6 +47,7 @@
     transition: opacity 0.3s ease;
     pointer-events: none;
     box-shadow: 0 0 15px rgba(255, 90, 145, 0.5);
+    z-index: 3;
   }
 
   // Contenido interno
@@ -43,12 +55,16 @@
     padding: 0.5em;
     text-align: center;
     text-transform: uppercase;
-    color: #ff568e;
+    color: #ffffff; // Cambiado a blanco para mejor contraste sobre la imagen
+    font-weight: bold;
     letter-spacing: 0.1em;
     transform: translateY(100%);
     opacity: 0;
     transition: all 0.5s ease;
     width: 100%;
+    position: relative; // Para estar encima de la imagen
+    z-index: 2; // Encima de la imagen pero debajo del borde brillante
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8); // Sombra para mejor legibilidad
   }
 }
 
@@ -63,6 +79,23 @@
   p {
     transform: translateY(0);
     opacity: 1;
+  }
+
+  img {
+    opacity: 0.4; // Imagen más opaca al hacer hover
+    transform: skewX(-15deg); // Ligero zoom para efecto dinámico
+  }
+
+  // Añadimos un overlay para oscurecer la imagen y mejorar el contraste con el texto
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
   }
 }
 
@@ -95,10 +128,19 @@
   .card div {
     min-height: 40px;
     min-width: auto;
+    transform: skewX(0); // Sin inclinación en móviles
+
+    img {
+      transform: skewX(0) scale(1.2); // Sin compensación de inclinación
+    }
   }
 
   .card div:hover {
     flex: 4;
+
+    img {
+      transform: skewX(0) scale(1.4);
+    }
   }
 
   .card:hover div:not(:hover) {
