@@ -1,0 +1,107 @@
+.card {
+  width: 100%;
+  height: 300px; // Altura fija para mejor control
+  background: #212121;
+  display: flex;
+  overflow: hidden; // Contiene los elementos que podrían desbordarse
+  border-radius: 8px; // Bordes redondeados para mejor aspecto
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card div {
+  flex: 1; // Distribución equitativa inicial
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.5s ease; // Suavizada la transición
+  background: #212121;
+  border: 1px solid #ff5a91;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; // Para posicionamiento absoluto de contenido
+  min-width: 60px; // Ancho mínimo en lugar de transform
+  transform: skewX(15deg);
+
+  // Pseudo-elemento para el borde con efecto de brillo
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #ff5a91;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 0 15px rgba(255, 90, 145, 0.5);
+  }
+
+  // Contenido interno
+  p {
+    padding: 0.5em;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ff568e;
+    letter-spacing: 0.1em;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.5s ease;
+    width: 100%;
+  }
+}
+
+// Estilos al hacer hover
+.card div:hover {
+  flex: 5; // Expande más que los otros elementos
+
+  &::after {
+    opacity: 1; // Muestra el borde con brillo
+  }
+
+  p {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Estado de los elementos que no están en hover cuando uno está expandido
+.card:hover div:not(:hover) {
+  flex: 0.5; // Se contraen más para dar espacio al elemento expandido
+}
+
+// Media queries para responsive
+@media (max-width: 768px) {
+  .card {
+    height: 250px;
+  }
+
+  .card div {
+    min-width: 40px;
+  }
+
+  .card div:hover {
+    flex: 3; // Menos expansión en móviles
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    height: 200px;
+    flex-direction: column; // Cambia a vertical en móviles pequeños
+  }
+
+  .card div {
+    min-height: 40px;
+    min-width: auto;
+  }
+
+  .card div:hover {
+    flex: 4;
+  }
+
+  .card:hover div:not(:hover) {
+    flex: 0.3;
+  }
+}
