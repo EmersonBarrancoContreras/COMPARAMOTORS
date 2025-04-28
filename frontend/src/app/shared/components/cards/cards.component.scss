@@ -5,7 +5,7 @@
 
   // Breakpoints para diferentes tamaños de pantalla
   @media (min-width: 1600px) {
-    grid-template-columns: repeat(5, 1fr) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
   }
 
   @media (max-width: 1599px) and (min-width: 1200px) {
@@ -23,9 +23,18 @@
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
+  @media (max-width: 776px) and (min-width: 577px) {
+    // Pantallas pequeñas: máximo 2 tarjetas por fila
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: auto auto !important;
+    width: calc(100% + 2rem); // Ajusta el ancho para compensar el escalado
+  }
+
   @media (max-width: 576px) {
     // Móviles: 1 tarjeta por fila
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: auto auto !important;
+    width: calc(100% + 2rem); // Ajusta el ancho para compensar el escalado
   }
 }
 

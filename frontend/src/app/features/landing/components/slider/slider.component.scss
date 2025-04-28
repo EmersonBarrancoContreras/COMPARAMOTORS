@@ -187,6 +187,14 @@ img {
 }
 
 /* Estilos responsivos */
+@media (max-width: 1920px){
+  .dialog-image-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr; // Dos columnas iguales
+    grid-template-rows: auto; // Una fila automática
+  }
+}
+
 @media (max-width: 768px) {
   .product-item {
     flex-direction: column; // En móviles, apila verticalmente

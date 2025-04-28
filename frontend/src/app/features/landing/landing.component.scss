@@ -244,13 +244,37 @@ main {
   min-height: 10vh;
 }
 
+@media (max-width: 1920px) {
+  main {
+    .slider {
+      height: 45vh;
+    }
+
+    .section-news{
+      margin-top: 5%;
+    }
+
+    .sections,
+    .notice-primary,
+    .notice-secondary {
+      > div {
+        padding: calc($spacing / 2);
+      }
+    }
+  }
+}
+
 // Media queries for responsive design
 @media (max-width: 1024px) {
   main {
     .slider {
       height: 70vh;
     }
-    .notice-primary,
+
+    .notice-primary {
+      width: 87%;
+    }
+
     .notice-secondary,
     .publicity,
     .cta {
@@ -262,7 +286,7 @@ main {
 @media (max-width: 1280px) {
   main {
     .slider {
-      height: 70vh;
+      height: 60vh;
     }
     .sections,
     .notice-primary,
@@ -294,7 +318,16 @@ main {
     gap: $spacing-base;
 
     .slider {
-      height: 40vh;
+      height: 100%;
+    }
+
+    .section-hero {
+      width: 100%;
+    }
+
+    .notice-primary {
+      width: 90%;
+      padding: 0 !important;
     }
 
     .sections,
@@ -314,7 +347,11 @@ main {
     padding: calc($spacing-base * 0.5);
 
     .slider {
-      height: 30vh;
+      height: 100%;
+    }
+
+    .section-hero {
+      width: 100%;
     }
 
     .sections,

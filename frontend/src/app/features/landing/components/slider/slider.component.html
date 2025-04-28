@@ -14,7 +14,7 @@
         <div class="product-image-container">
           <div class="product-image-wrapper">
             <img
-              ngSrc="{{ product.image }}"
+              [src]="product.image"
               alt="{{ product.name }}"
               [width]="400"
               [height]="300"
