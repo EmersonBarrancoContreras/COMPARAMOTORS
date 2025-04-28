@@ -1,7 +1,6 @@
 .section-1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
@@ -14,7 +13,7 @@
 
     img {
       margin-left: 15px;
-      max-height: 40px;
+      max-height: 70px;
       transition: transform 0.2s ease;
 
       &:hover {

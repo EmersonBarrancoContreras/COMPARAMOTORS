@@ -3,7 +3,7 @@ import { Carousel, CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { Product, ProductService } from '@services/product.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 
 @Component({
@@ -15,6 +15,7 @@ import { DialogModule } from 'primeng/dialog';
     TagModule,
     CommonModule,
     DialogModule,
+    NgOptimizedImage,
   ],
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.scss',
