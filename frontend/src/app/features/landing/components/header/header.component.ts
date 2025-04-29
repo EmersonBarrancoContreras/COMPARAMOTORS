@@ -24,6 +24,11 @@ import { MenubarModule } from 'primeng/menubar';
 })
 export class HeaderComponent implements OnInit {
   items: MenuItem[] | undefined;
+  isMenuActive: boolean = false;
+
+  toggleMenu() {
+    this.isMenuActive = !this.isMenuActive;
+  }
 
   ngOnInit() {
     this.items = [

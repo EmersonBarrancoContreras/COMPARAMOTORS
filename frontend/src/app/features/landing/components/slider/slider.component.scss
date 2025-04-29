@@ -187,8 +187,8 @@ img {
 }
 
 /* Estilos responsivos */
-@media (max-width: 1920px){
-  .dialog-image-container{
+@media (max-width: 1920px) {
+  .dialog-image-container {
     display: grid;
     grid-template-columns: 1fr 1fr; // Dos columnas iguales
     grid-template-rows: auto; // Una fila automática
@@ -207,5 +207,43 @@ img {
 
   .product-image-container {
     margin-bottom: 16px; // Añadimos separación entre imagen y texto
+  }
+}
+
+@media (max-width: 576px) {
+  .product-item {
+    flex-direction: column; // En móviles, apila verticalmente
+  }
+
+  .product-image-container,
+  .product-content {
+    width: 100%; // Ambos ocupan el ancho completo
+  }
+
+  .product-image-container {
+    margin-bottom: 16px; // Añadimos separación entre imagen y texto
+  }
+  .product-details {
+    display: none; // Ocultamos detalles en pantallas pequeñas
+  }
+
+}
+
+@media (max-width: 376px) {
+  .product-item {
+    flex-direction: column; // En móviles, apila verticalmente
+  }
+
+  .product-image-container,
+  .product-content {
+    width: 100%; // Ambos ocupan el ancho completo
+  }
+
+  .product-image-container {
+    margin-bottom: 16px; // Añadimos separación entre imagen y texto
+  }
+
+  .product-details {
+    display: none;
   }
 }
