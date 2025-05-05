@@ -4,30 +4,30 @@
 
 <main>
   <section class="slider">
-    <app-slider />
-  </section>
-
-  <section class="sections">
     <div>
-      <app-seccion-1 />
-    </div>
-    <div>
-      <app-seccion-2 />
-    </div>
-    <div>
-      <app-seccion-3 />
+      <app-slider />
     </div>
   </section>
 
-  <section class="notice-primary">
-    <div>
-      <app-notice-1 />
+  <section class="section-hero">
+    <div class="img-section" style="margin-top: 80px">
+      <img src="assets/img/sections.png" alt="Logo" />
     </div>
     <div>
-      <app-notice-2 />
+      <p-card>
+        <app-seccion-1 />
+      </p-card>
     </div>
-    <div>
-      <app-notice-3 />
+  </section>
+
+  <section class="section-news">
+    <div class="img-news">
+      <img src="assets/img/logo/news2.png" alt="Noticias" width="40%" />
+    </div>
+    <div class="notice-primary">
+      <p-card>
+        <app-news />
+      </p-card>
     </div>
   </section>
 
@@ -35,20 +35,24 @@
     <app-publicity />
   </section>
 
-  <section class="notice-secondary">
-    <div>
-      <app-notice-4 />
+  <section>
+    <div class="news-title">
+      <div>
+        <img src="assets/img/" alt="" width="30%" />
+        <h2>Noticias que quizá te perdiste</h2>
+      </div>
     </div>
-    <div>
-      <app-notice-5 />
-    </div>
-    <div>
-      <app-notice-6 />
+    <div class="notice-secondary">
+      <div class="scrollable-content">
+        <p-card>
+          <app-news-infinite />
+        </p-card>
+      </div>
     </div>
   </section>
 
   <section class="cta">
-    <app-cta />
+    <app-publicity />
   </section>
 </main>
 

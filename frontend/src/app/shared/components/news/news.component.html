@@ -1,0 +1,7 @@
+<div class="news-section">
+  <app-cards
+    [items]="newsItems"
+    [columns]="3"
+    (cardClick)="onNewsClick($event)"
+  ></app-cards>
+</div>

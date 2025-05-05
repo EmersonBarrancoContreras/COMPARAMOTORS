@@ -1,0 +1,61 @@
+<div class="news-container">
+  <div class="grid" *ngIf="!error()">
+    @for (item of visibleNews(); track item.id) {
+    <div class="col-item">
+      <p-card styleClass="news-card">
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <img [src]="item.imageUrl" [alt]="item.title" class="card-image" />
+          </div>
+        </ng-template>
+
+        <div class="card-content">
+          <h3 class="card-title">{{ item.title }}</h3>
+          <p class="card-description">{{ item.description }}</p>
+        </div>
+
+        <ng-template pTemplate="footer">
+          <div class="card-footer">
+            <p-button
+              label="Leer más"
+              icon="pi pi-arrow-right"
+              styleClass="p-button-text"
+            ></p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+    } @empty {
+    <div class="empty-state" *ngIf="!loading()">
+      <p>No hay noticias disponibles</p>
+    </div>
+    }
+  </div>
+
+  <!-- Estado de error -->
+  <div class="error-state" *ngIf="error()">
+    <p>Ha ocurrido un error al cargar las noticias</p>
+    <p-button
+      label="Reintentar"
+      icon="pi pi-refresh"
+      (onClick)="retry()"
+    ></p-button>
+  </div>
+
+  <div class="load-more-container">
+    @if (loading()) {
+    <p-progressSpinner styleClass="loader" strokeWidth="4"></p-progressSpinner>
+    } @else if (hasMoreNews()) {
+    <p-button
+      label="Ver más"
+      icon="pi pi-plus"
+      [raised]="true"
+      (onClick)="loadMoreNews()"
+      [disabled]="loading()"
+    >
+    </p-button>
+    } @else if (news().length > 0 && !error()) {
+    <p class="end-message">No hay más noticias disponibles</p>
+    }
+  </div>
+</div>

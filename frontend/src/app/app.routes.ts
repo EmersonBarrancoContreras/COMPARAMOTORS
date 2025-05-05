@@ -7,6 +7,18 @@ export const routes: Routes = [
     loadComponent: () => import('./features/landing/landing.component'),
     children: [],
   },
+  {
+    path: 'news-infinite',
+    title: 'Noticias',
+    loadComponent: () =>
+      import('@shared/components/news-infinite/news-infinite.component'),
+    children: [],
+  },
+  {
+    path: 'news',
+    title: 'Noticias',
+    loadComponent: () => import('@shared/components/news/news.component'),
+  },
   /*redirección de la pagina por defecto en landing*/
   {
     path: '',

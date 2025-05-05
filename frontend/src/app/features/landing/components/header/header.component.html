@@ -1,13 +1,53 @@
-<section class="buttons">
-  <p-button
-    icon="pi pi-home"
-    label="Inicio"
-    [severity]="'info'"
-    [raised]="true"
-  ></p-button>
-  <p-button
-    icon="pi pi-th-large"
-    label="Secciones"
-    [severity]="'secondary'"
-  ></p-button>
+<section class="section-1">
+  <div class="logo">
+    <img src="assets/img/logo/logo2.png" alt="Logo" width="15%" />
+  </div>
+
+  <!-- Botón hamburguesa para móvil -->
+  <div class="menu-toggle" (click)="toggleMenu()">
+    <i class="pi pi-bars"></i>
+  </div>
+
+  <div class="buttons" [class.active]="isMenuActive">
+    <div class="flex">
+      <p-iconfield iconPosition="left" class="ml-auto">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input
+          pInputText
+          type="text"
+          placeholder="Search"
+          style="background: white; color: rgb(77, 77, 77)"
+        />
+      </p-iconfield>
+      <div>
+        <p-menu #menu [model]="items" [popup]="true" />
+        <p-button
+          (click)="menu.toggle($event)"
+          icon="pi pi-user"
+          [rounded]="true"
+        ></p-button>
+      </div>
+    </div>
+    <div class="buttons-right">
+      <div>
+        <p-button icon="pi pi-home" label="Inicio" [raised]="true"></p-button>
+      </div>
+      <div>
+        <p-button
+          icon="pi pi-phone"
+          label="Contactanos"
+          [raised]="true"
+        ></p-button>
+      </div>
+      <div>
+        <p-button
+          icon="pi pi-folder"
+          label="Portafolio"
+          [raised]="true"
+        ></p-button>
+      </div>
+    </div>
+  </div>
 </section>

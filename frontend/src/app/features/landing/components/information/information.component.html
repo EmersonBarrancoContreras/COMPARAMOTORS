@@ -1,0 +1,54 @@
+<div class="warframe-showcase">
+  <!-- Selector lateral con miniaturas -->
+  <div class="showcase-selector">
+    @for (image of images; track $index) {
+    <div
+      class="selector-item"
+      [class.active]="currentIndex === $index"
+      (click)="selectItem($index)"
+    >
+      <div class="selector-thumbnail">
+        <img [src]="image" [alt]="'Item ' + ($index + 1)" />
+      </div>
+      <div class="selector-line"></div>
+    </div>
+    }
+  </div>
+
+  <!-- Panel de información principal -->
+  <div class="showcase-main" #showcaseMain>
+    <div class="showcase-content">
+      <!-- Mostrar solo el elemento seleccionado -->
+      <div class="showcase-item" *ngIf="showcaseItems[currentIndex]">
+        <div class="item-image">
+          <img
+            [src]="showcaseItems[currentIndex].image"
+            [alt]="showcaseItems[currentIndex].title"
+          />
+        </div>
+        <div class="item-info">
+          <h2 class="item-title">{{ showcaseItems[currentIndex].title }}</h2>
+          <div class="item-category">
+            {{ showcaseItems[currentIndex].category }}
+          </div>
+          <p class="item-description">
+            {{ showcaseItems[currentIndex].description }}
+          </p>
+          <div class="item-details">
+            <div
+              class="detail"
+              *ngFor="let detail of showcaseItems[currentIndex].details"
+            >
+              <span class="detail-label">{{ detail.label }}:</span>
+              <span class="detail-value">{{ detail.value }}</span>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="action-button primary">Ver más</button>
+            <button class="action-button secondary">Compartir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

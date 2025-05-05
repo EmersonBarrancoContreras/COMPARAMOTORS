@@ -1,12 +1,13 @@
-@use "sass:math";
+@use "sass:color";
 
 // Variables
 $color-primary: #f0f0f0;
 $color-header: #333;
-$color-cards: #f0f0f0;
+$color-cards: #ffffff;
 $color-dark: #333;
 $color-light: #fff;
 $primary-accent: #0056b3;
+$secondary-accent: #c1121f;
 
 $spacing: 20px;
 $spacing-base: 1rem;
@@ -35,7 +36,8 @@ $box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 // Base styles
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -62,6 +64,7 @@ body {
   top: 0;
   z-index: 100;
   box-shadow: $box-shadow;
+  border-radius: 0 0 20px 20px;
 }
 
 main {
@@ -76,25 +79,26 @@ main {
   // Slider section
   .slider {
     width: 100%;
-    height: 50svh;
+    height: 60vh;
     margin-bottom: $spacing-base;
     border-radius: $border-radius;
     overflow: hidden;
-    background-color: $color-primary;
-    padding: calc($spacing / 2);
+    // background-color: $color-primary;
+    // padding: calc($spacing / 2);
   }
 
-  // Sections con 3 divisiones iguales
-  .sections {
+  // Sections con distribución personalizada
+  .section {
     @include section-base;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); // 6 columnas de igual tamaño
+    grid-template-rows: auto auto; // 2 filas de altura automática
     width: 100%;
     gap: $spacing;
     background-color: $color-light;
 
     > div {
-      flex: 1;
-      min-height: 150px;
+      min-height: 300px;
       background-color: $color-cards;
       border-radius: $border-radius;
       padding: calc($spacing / 2);
@@ -111,9 +115,10 @@ main {
     > div {
       flex: 1;
       min-height: 150px;
-      background-color: darken($color-primary, 5%);
+      background-color: $color-cards;
       border-radius: $border-radius;
       padding: calc($spacing / 2);
+      box-shadow: $box-shadow;
     }
   }
 
@@ -126,21 +131,94 @@ main {
     padding: calc($spacing / 2);
     border-radius: $border-radius;
     box-sizing: border-box;
+    // box-shadow: $box-shadow;
+  }
+
+  .news-title {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: start;
+    color: var(--text-color);
+
+    > div {
+      display: flex;
+      align-items: center;
+      grid-column: 1 / span 2;
+    }
+  }
+
+  .img-news {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .img-section {
+    display: flex;
+    justify-content: center;
+    text-align: center;
   }
 
   // Notice secondary con 3 divisiones iguales
   .notice-secondary {
     @include section-base;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
     width: 100%;
+    max-height: 220vh;
     gap: $spacing;
 
     > div {
-      flex: 1;
+      // Eliminar flex: 1 ya que estamos usando grid
       min-height: 150px;
-      background-color: darken($color-primary, 3%);
+      max-height: 220vh; // Usar vh en lugar de rem para una altura relativa
+      background-color: $color-cards;
       border-radius: $border-radius;
       padding: calc($spacing / 2);
+      box-shadow: $box-shadow;
+
+      // Configuración correcta del scroll
+      overflow-y: auto; // auto en lugar de scroll para mostrar barras solo cuando sea necesario
+      scroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: $secondary-accent $color-light;
+
+      // Evitar que el contenido interno se desborde horizontalmente
+      > * {
+        max-width: 100%;
+      }
+
+      > .scrollable-content {
+        width: 100%;
+        height: auto; // La altura se ajusta al contenido
+
+        // Prevenir desbordamiento horizontal
+        > * {
+          max-width: 100%;
+        }
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $color-light;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: $secondary-accent;
+        border-radius: 4px;
+      }
+    }
+
+    > div:nth-child(1) {
+      grid-column: 2 / span 8;
+      grid-row: 1;
     }
   }
 
@@ -148,11 +226,12 @@ main {
   .cta {
     @include section-base;
     width: 100%;
-    background-color: darken($color-primary, 10%);
+    background-color: $color-cards;
     color: $color-dark;
     text-align: center;
     padding: $spacing;
     min-height: 100px;
+    box-shadow: $box-shadow;
   }
 }
 
@@ -165,20 +244,16 @@ main {
   min-height: 10vh;
 }
 
-// Media queries for responsive design
-@media (max-width: 1024px) {
+@media (max-width: 1920px) {
   main {
-    .notice-primary,
-    .notice-secondary,
-    .publicity,
-    .cta {
-      width: 100%;
+    .slider {
+      height: 45vh;
     }
-  }
-}
 
-@media (max-width: 992px) {
-  main {
+    .section-news {
+      margin-top: 5%;
+    }
+
     .sections,
     .notice-primary,
     .notice-secondary {
@@ -189,12 +264,120 @@ main {
   }
 }
 
+// Media queries for responsive design
+
+@media (max-width: 1440px) {
+  .img-section {
+    width: 100%;
+    img {
+      width: 70%;
+    }
+  }
+
+  main {
+    .slider {
+      height: 50vh;
+    }
+
+    .section-news {
+      margin-top: 5%;
+    }
+
+    .sections,
+    .notice-primary,
+    .notice-secondary {
+      > div {
+        padding: calc($spacing / 2);
+      }
+    }
+  }
+}
+
+@media (max-width: 1360px) {
+  .img-section {
+    width: 100%;
+    img {
+      width: 70%;
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  main {
+    .slider {
+      height: 60vh;
+    }
+    .sections,
+    .notice-primary,
+    .notice-secondary {
+      > div {
+        padding: calc($spacing / 2);
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  // .img-section {
+  //   img {
+  //     width: 70%;
+  //   }
+  // }
+
+  main {
+    .slider {
+      height: 70vh;
+    }
+    .sections,
+    .notice-primary,
+    .notice-secondary {
+      > div {
+        padding: calc($spacing / 2);
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .img-section {
+    width: 100%;
+    img {
+      width: 70%;
+    }
+  }
+
+  main {
+    .slider {
+      height: 70vh;
+    }
+
+    .notice-primary {
+      width: 87%;
+    }
+
+    .notice-secondary,
+    .publicity,
+    .cta {
+      width: 100%;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   main {
     gap: $spacing-base;
 
     .slider {
-      height: 40vh;
+      height: 100%;
+    }
+
+    .section-hero {
+      width: 100%;
+    }
+
+    .notice-primary {
+      width: 90%;
+      padding: 0 !important;
     }
 
     .sections,
@@ -210,11 +393,21 @@ main {
 }
 
 @media (max-width: 576px) {
+  .img-section {
+    width: 100%;
+  }
+
   main {
     padding: calc($spacing-base * 0.5);
 
     .slider {
-      height: 30vh;
+      height: 100%;
+    }
+
+    .img-section {
+      img {
+        width: 70%;
+      }
     }
 
     .sections,
@@ -225,4 +418,33 @@ main {
       padding: calc($spacing-base * 0.75);
     }
   }
+}
+
+@media (min-width: 360px) and (max-width: 420px) {
+  .img-section {
+    margin-top: 10px !important;
+    img {
+      width: 90% !important;
+    }
+  }
+  main {
+    .slider {
+      height: 50vh;
+    }
+    .sections,
+    .notice-primary,
+    .notice-secondary {
+      > div {
+        padding: calc($spacing / 2);
+      }
+    }
+  }
+}
+
+:host ::ng-deep .p-card {
+  background-color: $color-cards; // Fondo semitransparente
+  border-radius: 8px; // Bordes redondeados
+  border: none;
+  box-shadow: none;
+  color: $color-dark;
 }

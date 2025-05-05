@@ -1,0 +1,81 @@
+<div class="card">
+  <p-carousel
+    #carousel
+    [value]="products"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="true"
+    [responsiveOptions]="responsiveOptions"
+    autoplayInterval="5000"
+    (onPage)="onPageChange($event)"
+  >
+    <ng-template let-product #item>
+      <div class="product-item">
+        <div class="product-image-container">
+          <div class="product-image-wrapper">
+            <img
+              [src]="product.image"
+              alt="{{ product.name }}"
+              [width]="400"
+              [height]="300"
+              class="product-image"
+              loading="lazy"
+              style="cursor: pointer"
+              (click)="showImage(product)"
+            />
+            <p-tag
+              [value]="product.inventoryStatus"
+              [severity]="getSeverity(product.inventoryStatus)"
+              class="product-tag"
+            />
+          </div>
+        </div>
+        <div>
+          <div class="product-name">{{ product.name }}</div>
+          <div class="product-details">
+            <div class="product-price">
+              {{ "$" + product.price }}
+            </div>
+            <div>
+              {{ product.description }}
+            </div>
+            <span class="product-actions">
+              <p-button
+                icon="pi pi-heart"
+                severity="secondary"
+                [outlined]="true"
+              />
+              <p-button icon="pi pi-shopping-cart" class="cart-button" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+
+  <!-- Diálogo para mostrar la imagen -->
+  <p-dialog
+    [(visible)]="dialogVisible"
+    header="Header"
+    [modal]="true"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  >
+    <div class="dialog-image-container" *ngIf="selectedProduct">
+      <img
+        [src]="selectedProduct.images"
+        [alt]="selectedProduct.name"
+        class="full-image"
+      />
+      <div class="image-details">
+        <h3>{{ selectedProduct.name }}</h3>
+        <p class="description">{{ selectedProduct.description }}</p>
+        <p-button
+          class="ver-mas-button"
+          icon="pi pi-iconName"
+          label="Ver más"
+        ></p-button>
+      </div>
+    </div>
+  </p-dialog>
+</div>

@@ -1,1 +1,13 @@
-<p>publicity works!</p>
+<div class="gallery-wrapper">
+  <div class="gallery-track" #galleryContainer>
+    @for (image of images; track $index) {
+    <div class="gallery-item">
+      <img
+        [src]="image"
+        [alt]="'Publicidad ' + ($index + 1)"
+        class="gallery-image"
+      />
+    </div>
+    }
+  </div>
+</div>
