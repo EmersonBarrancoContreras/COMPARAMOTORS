@@ -265,20 +265,39 @@ main {
 }
 
 // Media queries for responsive design
-@media (max-width: 1024px) {
+
+@media (max-width: 1440px) {
+  .img-section {
+    width: 100%;
+    img {
+      width: 70%;
+    }
+  }
+
   main {
     .slider {
-      height: 70vh;
+      height: 50vh;
     }
 
-    .notice-primary {
-      width: 87%;
+    .section-news {
+      margin-top: 5%;
     }
 
-    .notice-secondary,
-    .publicity,
-    .cta {
-      width: 100%;
+    .sections,
+    .notice-primary,
+    .notice-secondary {
+      > div {
+        padding: calc($spacing / 2);
+      }
+    }
+  }
+}
+
+@media (max-width: 1360px) {
+  .img-section {
+    width: 100%;
+    img {
+      width: 70%;
     }
   }
 }
@@ -315,6 +334,31 @@ main {
       > div {
         padding: calc($spacing / 2);
       }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .img-section {
+    width: 100%;
+    img {
+      width: 70%;
+    }
+  }
+
+  main {
+    .slider {
+      height: 70vh;
+    }
+
+    .notice-primary {
+      width: 87%;
+    }
+
+    .notice-secondary,
+    .publicity,
+    .cta {
+      width: 100%;
     }
   }
 }
