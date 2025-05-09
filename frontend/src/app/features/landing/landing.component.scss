@@ -288,7 +288,12 @@ main {
     .slider {
       height: 60vh;
     }
-    .sections,
+
+    .img-section{
+      img {
+        width: 80%;
+      }
+    }
     .notice-primary,
     .notice-secondary {
       > div {
@@ -298,12 +303,14 @@ main {
   }
 }
 
+
+
 @media (max-width: 992px) {
-  // .img-section {
-  //   img {
-  //     width: 70%;
-  //   }
-  // }
+  .img-section {
+    img {
+      width: 70%;
+    }
+  }
 
   main {
     .slider {
