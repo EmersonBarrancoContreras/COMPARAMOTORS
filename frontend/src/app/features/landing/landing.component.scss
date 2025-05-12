@@ -383,7 +383,7 @@ main {
     }
 
     .notice-primary {
-      width: 90%;
+      width: 23%;
       padding: 0 !important;
     }
 
@@ -427,7 +427,7 @@ main {
   }
 }
 
-@media (min-width: 360px) and (max-width: 420px) {
+@media (max-width: 376px) {
   .img-section {
     margin-top: 10px !important;
     img {
@@ -436,7 +436,7 @@ main {
   }
   main {
     .slider {
-      height: 50vh;
+      height: 60vh;
     }
     .sections,
     .notice-primary,

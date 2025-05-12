@@ -56,12 +56,13 @@
     font-weight: bold;
     letter-spacing: 0.1em;
     transform: translateY(100%);
-    opacity: 0;
+    opacity: 1;
     transition: all 0.5s ease;
     width: 100%;
     position: relative;
     z-index: 2;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    transform: translateY(0);
   }
 
   // Estado cuando está expandido
@@ -75,6 +76,7 @@
     p {
       transform: translateY(0);
       opacity: 1;
+      font-size: 1.2em;
     }
 
     img {
@@ -91,48 +93,11 @@
       bottom: 0;
       background: rgba(0, 0, 0, 0.4);
       z-index: 1;
+      transition: all 0.3s ease;
     }
   }
 }
 
-// Estado de los elementos cuando no son el elemento expandido
-// .card:has(div.expanded) div:not(.expanded) {
-//   flex: 0.5;
-// }
-
-// // Estilos de hover cuando no hay ningún elemento expandido
-// .card:not(:has(div.expanded)) div:hover {
-//   flex: 5;
-
-//   &::after {
-//     opacity: 1;
-//   }
-
-//   p {
-//     transform: translateY(0);
-//     opacity: 1;
-//   }
-
-//   img {
-//     opacity: 0.4;
-//     transform: skewX(-15deg);
-//   }
-
-//   &::before {
-//     content: "";
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     bottom: 0;
-//     background: rgba(0, 0, 0, 0.4);
-//     z-index: 1;
-//   }
-// }
-
-// .card:not(:has(div.expanded)):hover div:not(:hover) {
-//   flex: 0.5;
-// }
 
 // Media queries para responsive
 @media (max-width: 768px) {
@@ -177,4 +142,34 @@
   .card:has(div.expanded) div:not(.expanded) {
     flex: 0.3;
   }
+}
+
+@media (max-width: 393px) {
+  .card {
+    height: 300px;
+  }
+
+  .card div {
+    min-height: 30px;
+    min-width: auto;
+    transform: skewX(0);
+
+    img {
+      transform: skewX(0) scale(1.2);
+    }
+  }
+
+  .card div:hover, .card div.expanded {
+    flex: 4;
+
+    img {
+      transform: skewX(0) scale(1.4);
+    }
+  }
+
+  .card:hover div:not(:hover),
+  .card:has(div.expanded) div:not(.expanded) {
+    flex: 0.3;
+  }
+
 }

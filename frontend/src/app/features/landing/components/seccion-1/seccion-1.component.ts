@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -28,6 +28,15 @@ export class Seccion1Component implements OnInit {
       this.expandedIndex = null; // Contraer si ya está expandido
     } else {
       this.expandedIndex = index; // Expandir el ítem seleccionado
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Verificar si el clic fue fuera del componente card
+    const cardElement = document.querySelector('.card');
+    if (cardElement && !cardElement.contains(event.target as Node)) {
+      this.expandedIndex = null; // Colapsar el contenido expandido
     }
   }
 }
