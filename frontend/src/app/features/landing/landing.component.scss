@@ -11,6 +11,7 @@ $secondary-accent: #c1121f;
 
 $spacing: 20px;
 $spacing-base: 1rem;
+$spacing-half: calc($spacing / 2);
 $max-width: 100%;
 $border-radius: 8px;
 $box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -33,6 +34,39 @@ $box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: $spacing-base;
   margin-bottom: $spacing-base;
   border-radius: $border-radius;
+  width: 100%;
+}
+
+@mixin card-base {
+  background-color: $color-cards;
+  border-radius: $border-radius;
+  padding: $spacing-half;
+}
+
+@mixin scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: $secondary-accent $color-light;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $color-light;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $secondary-accent;
+    border-radius: 4px;
+  }
+}
+
+@mixin responsive-image($width) {
+  width: 100%;
+  img {
+    width: $width;
+  }
 }
 
 // Base styles
@@ -41,8 +75,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; // Evita el scroll horizontal
-  box-sizing: border-box; // Incluye el padding y el borde en el ancho y alto total
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 body {
@@ -59,7 +93,7 @@ body {
   width: 100%;
   background-color: $color-header;
   color: $color-light;
-  padding: calc($spacing / 2);
+  padding: $spacing-half;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -71,7 +105,7 @@ main {
   @include flex-layout(column, wrap, flex-start, stretch);
   max-width: $max-width;
   margin: 0 auto;
-  padding: calc($spacing / 2);
+  padding: $spacing-half;
   gap: $spacing;
   flex-grow: 1;
   width: 100%;
@@ -83,25 +117,20 @@ main {
     margin-bottom: $spacing-base;
     border-radius: $border-radius;
     overflow: hidden;
-    // background-color: $color-primary;
-    // padding: calc($spacing / 2);
   }
 
   // Sections con distribución personalizada
   .section {
     @include section-base;
     display: grid;
-    grid-template-columns: repeat(1, 1fr); // 6 columnas de igual tamaño
-    grid-template-rows: auto auto; // 2 filas de altura automática
-    width: 100%;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto auto;
     gap: $spacing;
     background-color: $color-light;
 
     > div {
       min-height: 300px;
-      background-color: $color-cards;
-      border-radius: $border-radius;
-      padding: calc($spacing / 2);
+      @include card-base;
     }
   }
 
@@ -109,15 +138,12 @@ main {
   .notice-primary {
     @include section-base;
     display: flex;
-    width: 100%;
     gap: $spacing;
 
     > div {
       flex: 1;
       min-height: 150px;
-      background-color: $color-cards;
-      border-radius: $border-radius;
-      padding: calc($spacing / 2);
+      @include card-base;
       box-shadow: $box-shadow;
     }
   }
@@ -125,13 +151,9 @@ main {
   // Publicity - ancho completo
   .publicity {
     @include section-base;
-    width: 100%;
-    background-color: $color-cards;
+    @include card-base;
     min-height: 200px;
-    padding: calc($spacing / 2);
-    border-radius: $border-radius;
     box-sizing: border-box;
-    // box-shadow: $box-shadow;
   }
 
   .news-title {
@@ -150,12 +172,7 @@ main {
     }
   }
 
-  .img-news {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-  }
-
+  .img-news,
   .img-section {
     display: flex;
     justify-content: center;
@@ -167,24 +184,17 @@ main {
     @include section-base;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    width: 100%;
     max-height: 220vh;
     gap: $spacing;
 
     > div {
-      // Eliminar flex: 1 ya que estamos usando grid
       min-height: 150px;
-      max-height: 220vh; // Usar vh en lugar de rem para una altura relativa
-      background-color: $color-cards;
-      border-radius: $border-radius;
-      padding: calc($spacing / 2);
+      max-height: 220vh;
+      @include card-base;
       box-shadow: $box-shadow;
-
-      // Configuración correcta del scroll
-      overflow-y: auto; // auto en lugar de scroll para mostrar barras solo cuando sea necesario
+      overflow-y: auto;
       scroll-behavior: contain;
-      scrollbar-width: thin;
-      scrollbar-color: $secondary-accent $color-light;
+      @include scrollbar;
 
       // Evitar que el contenido interno se desborde horizontalmente
       > * {
@@ -193,26 +203,12 @@ main {
 
       > .scrollable-content {
         width: 100%;
-        height: auto; // La altura se ajusta al contenido
+        height: auto;
 
         // Prevenir desbordamiento horizontal
         > * {
           max-width: 100%;
         }
-      }
-
-      &::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: $color-light;
-        border-radius: 4px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: $secondary-accent;
-        border-radius: 4px;
       }
     }
 
@@ -225,8 +221,7 @@ main {
   // Call to action
   .cta {
     @include section-base;
-    width: 100%;
-    background-color: $color-cards;
+    @include card-base;
     color: $color-dark;
     text-align: center;
     padding: $spacing;
@@ -244,120 +239,77 @@ main {
   min-height: 10vh;
 }
 
-@media (max-width: 1920px) {
+// Media queries compartidas
+@mixin slider-height($height) {
+  main .slider {
+    height: $height;
+  }
+}
+
+@mixin shared-padding {
   main {
-    .slider {
-      height: 45vh;
-    }
-
-    .section-news {
-      margin-top: 5%;
-    }
-
     .sections,
     .notice-primary,
     .notice-secondary {
       > div {
-        padding: calc($spacing / 2);
+        padding: $spacing-half;
       }
     }
   }
 }
 
-// Media queries for responsive design
+// Media queries para diseño responsive
+@media (max-width: 1920px) {
+  @include slider-height(45vh);
+
+  main .section-news {
+    margin-top: 5%;
+  }
+
+  @include shared-padding;
+}
 
 @media (max-width: 1440px) {
   .img-section {
-    width: 100%;
-    img {
-      width: 70%;
-    }
+    @include responsive-image(70%);
   }
 
-  main {
-    .slider {
-      height: 50vh;
-    }
+  @include slider-height(50vh);
 
-    .section-news {
-      margin-top: 5%;
-    }
-
-    .sections,
-    .notice-primary,
-    .notice-secondary {
-      > div {
-        padding: calc($spacing / 2);
-      }
-    }
+  main .section-news {
+    margin-top: 5%;
   }
+
+  @include shared-padding;
 }
 
 @media (max-width: 1360px) {
   .img-section {
-    width: 100%;
-    img {
-      width: 70%;
-    }
+    @include responsive-image(70%);
   }
 }
 
 @media (max-width: 1280px) {
-  main {
-    .slider {
-      height: 60vh;
-    }
+  @include slider-height(60vh);
 
-    .img-section{
-      img {
-        width: 80%;
-      }
-    }
-    .notice-primary,
-    .notice-secondary {
-      > div {
-        padding: calc($spacing / 2);
-      }
-    }
-  }
-}
-
-
-
-@media (max-width: 992px) {
-  .img-section {
+  main .img-section {
     img {
-      width: 70%;
+      margin-top: 80px;
+      width: 80%;
     }
   }
 
-  main {
-    .slider {
-      height: 70vh;
-    }
-    .sections,
-    .notice-primary,
-    .notice-secondary {
-      > div {
-        padding: calc($spacing / 2);
-      }
-    }
-  }
+  @include shared-padding;
 }
 
 @media (max-width: 1024px) {
   .img-section {
-    width: 100%;
-    img {
-      width: 70%;
-    }
+    @include responsive-image(70%);
   }
 
-  main {
-    .slider {
-      height: 70vh;
-    }
+  @include slider-height(70vh);
 
+  main {
     .notice-primary {
       width: 87%;
     }
@@ -368,6 +320,15 @@ main {
       width: 100%;
     }
   }
+}
+
+@media (max-width: 992px) {
+  .img-section img {
+    width: 70%;
+  }
+
+  @include slider-height(70vh);
+  @include shared-padding;
 }
 
 @media (max-width: 768px) {
@@ -411,10 +372,8 @@ main {
       height: 100%;
     }
 
-    .img-section {
-      img {
-        width: 70%;
-      }
+    .img-section img {
+      width: 70%;
     }
 
     .sections,
@@ -427,30 +386,66 @@ main {
   }
 }
 
-@media (max-width: 376px) {
-  .img-section {
-    margin-top: 10px !important;
-    img {
-      width: 90% !important;
-    }
-  }
+@media (max-width: 412px) {
   main {
     .slider {
-      height: 60vh;
+      height: 100%;
     }
+
+    .section-hero {
+      width: 100%;
+
+      .img-section img {
+        width: 90%;
+      }
+    }
+
+    .img-news {
+      width: 27%;
+      img {
+        width: 70%;
+      }
+    }
+
+    .notice-primary {
+      width: 28%;
+      padding: 0 !important;
+    }
+
+    .notice-secondary {
+      display: grid;
+      grid-template-columns: repeat(30, 1fr);
+      margin-left: -56px;
+    }
+
     .sections,
     .notice-primary,
     .notice-secondary {
+      flex-direction: column;
+
       > div {
-        padding: calc($spacing / 2);
+        width: 100%;
       }
     }
   }
 }
 
+@media (max-width: 376px) {
+  .img-section {
+    margin-top: 10px !important;
+
+    img {
+      width: 90% !important;
+    }
+  }
+
+  @include slider-height(60vh);
+  @include shared-padding;
+}
+
 :host ::ng-deep .p-card {
-  background-color: $color-cards; // Fondo semitransparente
-  border-radius: 8px; // Bordes redondeados
+  background-color: $color-cards;
+  border-radius: 8px;
   border: none;
   box-shadow: none;
   color: $color-dark;

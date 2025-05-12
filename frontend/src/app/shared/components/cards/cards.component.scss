@@ -83,6 +83,15 @@
     }
   }
 
+  @media (max-width: 412px) {
+  .card-wrapper {
+    width: 100% !important;
+    overflow: hidden; // Ancho ajustado para pantallas pequeñas
+    // Los demás estilos se heredan de la media query anterior
+  }
+
+}
+
   // Ajuste específico para pantallas muy pequeñas (como 393px)
   @media (max-width: 376px) {
     .card-wrapper {

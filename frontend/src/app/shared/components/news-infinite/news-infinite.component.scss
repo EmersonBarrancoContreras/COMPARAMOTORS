@@ -1,76 +1,130 @@
+// Variables
+$container-max-width: 1200px;
+$spacing-base: 1rem;
+$spacing-large: 2rem;
+$spacing-xl: 3rem;
+$card-image-height: 180px;
+$card-hover-translate: -5px;
+$border-radius: 8px;
+
+// Colores
+$primary-color: #f44336; // Color rojo para errores
+$shadow-color: rgba(255, 0, 0, 0.1);
+$text-color: var(--text-color);
+$text-secondary: var(--text-secondary-color);
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin full-width-text-center {
+  width: 100%;
+  text-align: center;
+}
+
+@mixin card-transition {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@mixin responsive-grid($columns, $breakpoint) {
+  @media (min-width: $breakpoint) {
+    width: calc(100% / $columns);
+  }
+}
+
+// Estilos principales
 .news-container {
-  max-width: 1200px;
+  max-width: $container-max-width;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: $spacing-large $spacing-base;
 
   .news-title {
     font-size: 2rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 2rem;
-    color: var(--text-color);
+    margin-bottom: $spacing-large;
+    color: $text-color;
   }
 
+  // Grid de noticias
   .grid {
     display: flex;
     flex-wrap: wrap;
-    margin-left: -0.5rem;
-    margin-right: -0.5rem;
-    margin-bottom: 2rem;
+    margin-left: -0.5 * $spacing-base;
+    margin-right: -0.5 * $spacing-base;
+    margin-bottom: $spacing-large;
 
     .col-item {
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.5 * $spacing-base;
 
-      @media (min-width: 768px) {
-        width: 50%;
-      }
-
-      @media (min-width: 992px) {
-        width: 25%;
-      }
+      @include responsive-grid(2, 768px);
+      @include responsive-grid(4, 992px);
     }
 
+    // Estilos de las tarjetas (usando ::ng-deep para llegar a componentes PrimeNG)
     ::ng-deep .news-card {
       height: 100%;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      @include card-transition;
+      border-radius: $border-radius;
+      overflow: hidden;
 
       &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgb(255, 0, 0, 0.1);
+        transform: translateY($card-hover-translate);
+        box-shadow: 0 10px 20px $shadow-color;
       }
 
       .card-header {
         overflow: hidden;
+        position: relative;
       }
 
       .card-image {
         width: 100%;
-        height: 180px;
+        height: $card-image-height;
         object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      // Efecto zoom suave en la imagen al hacer hover
+      &:hover .card-image {
+        transform: scale(1.05);
       }
 
       .card-content {
-        padding: 0.5rem 0;
+        padding: 0.5 * $spacing-base 0;
       }
 
       .card-title {
         font-size: 1.25rem;
         font-weight: 600;
-        margin: 0.5rem 0;
-        color: var(--text-color);
+        margin: 0.5 * $spacing-base 0;
+        color: $text-color;
+        // Limitar a 2 líneas con elipsis
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .card-description {
-        color: var(--text-secondary-color);
+        color: $text-secondary;
         font-size: 0.875rem;
-        margin-bottom: 1rem;
+        margin-bottom: $spacing-base;
         line-height: 1.5;
+        // Limitar a 3 líneas con elipsis
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .card-footer {
         display: flex;
         justify-content: flex-end;
+        align-items: center;
       }
 
       .p-card-footer {
@@ -79,10 +133,10 @@
     }
   }
 
+  // Contenedor para el botón "Cargar más"
   .load-more-container {
-    display: flex;
-    justify-content: center;
-    padding: 1.5rem 0;
+    @include flex-center;
+    padding: 1.5 * $spacing-base 0;
 
     .loader {
       width: 50px;
@@ -90,30 +144,48 @@
     }
 
     .end-message {
-      color: var(--text-secondary-color);
-      font-size: 1rem;
+      color: $text-secondary;
+      font-size: $spacing-base;
       font-style: italic;
     }
   }
 
+  // Estado vacío
   .empty-state {
-    width: 100%;
-    text-align: center;
-    padding: 3rem 1rem;
-    color: var(--text-secondary-color);
+    @include full-width-text-center;
+    padding: $spacing-xl $spacing-base;
+    color: $text-secondary;
     font-size: 1.25rem;
   }
 
+  // Estado de error
   .error-state {
-    width: 100%;
-    text-align: center;
-    padding: 3rem 1rem;
-    margin: 2rem 0;
-    color: #f44336;
+    @include full-width-text-center;
+    padding: $spacing-xl $spacing-base;
+    margin: $spacing-large 0;
+    color: $primary-color;
 
     p {
       font-size: 1.25rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.5 * $spacing-base;
+    }
+  }
+}
+
+// Media queries específicas para el contenedor
+@media (max-width: 576px) {
+  .news-container {
+    padding: $spacing-base 0.5 * $spacing-base;
+
+    .news-title {
+      font-size: 1.75rem;
+      margin-bottom: 1.5 * $spacing-base;
+    }
+
+    ::ng-deep .news-card {
+      .card-image {
+        height: 150px;
+      }
     }
   }
 }
