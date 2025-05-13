@@ -20,28 +20,40 @@ img {
 
 .product-item {
   border-radius: 4px;
-  margin: 8px;
-  padding: 16px;
+  // margin: 8px;
+  // padding: 16px;
   width: 100%;
   display: flex; // Añadimos flexbox para organizar imagen y texto
   flex-direction: row; // Elementos en fila (horizontal)
-  align-items: start; // Alineamos al inicio
-  gap: 10%; // Espacio entre imagen y texto
+  align-items: end; // Alineamos al inicio
+  gap: 35%; // Espacio entre imagen y texto
+  align-items: center;
 }
 
 // Contenedor de imagen ahora ocupa el lado izquierdo
 .product-image-container {
   margin-bottom: 0;
-  width: 40%;
+  width: 100%;
   flex-shrink: 0;
+  z-index: 0; // Aseguramos que la imagen esté detrás del texto
 }
 
 // Contenedor de texto ahora ocupa el lado derecho
 .product-content {
   width: 60%; // Texto ocupa el 60% del ancho
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  gap: 2%;
+  z-index: 1;
+  color: white;
+}
+
+.product-details {
+  width: 700px;
+  display: flex;
+  gap: 2%;
+  font-size: larger;
 }
 
 .product-image-wrapper {
@@ -54,9 +66,10 @@ img {
 .product-image {
   width: 100%;
   height: auto;
-  max-height: 300px; // Aumentamos altura máxima
+  max-height: 650px; // Aumentamos altura máxima
   object-fit: cover;
   display: block;
+   filter: brightness(50%);
 }
 
 .product-tag {
@@ -139,6 +152,10 @@ img {
       color: #ffffff !important;
     }
   }
+}
+
+:host ::ng-deep .p-carousel-content {
+  max-height: 80vh !important;
 }
 
 /* Estilos para el diálogo y la imagen ampliada */
@@ -225,7 +242,6 @@ img {
   .product-details {
     display: none; // Ocultamos detalles en pantallas pequeñas
   }
-
 }
 
 @media (max-width: 376px) {

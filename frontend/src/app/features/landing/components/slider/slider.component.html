@@ -6,8 +6,6 @@
     [numScroll]="1"
     [circular]="true"
     [responsiveOptions]="responsiveOptions"
-    autoplayInterval="5000"
-    (onPage)="onPageChange($event)"
   >
     <ng-template let-product #item>
       <div class="product-item">
@@ -30,7 +28,7 @@
             />
           </div>
         </div>
-        <div>
+        <div class="product-content">
           <div class="product-name">{{ product.name }}</div>
           <div class="product-details">
             <div class="product-price">
@@ -39,16 +37,16 @@
             <div>
               {{ product.description }}
             </div>
-            <span class="product-actions">
+            <!-- <span class="product-actions">
               <p-button
                 icon="pi pi-heart"
                 severity="secondary"
                 [outlined]="true"
               />
               <p-button icon="pi pi-shopping-cart" class="cart-button" />
-            </span>
+            </span> -->
           </div>
-        </div> 
+        </div>
       </div>
     </ng-template>
   </p-carousel>

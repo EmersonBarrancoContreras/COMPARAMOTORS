@@ -98,7 +98,6 @@ body {
   top: 0;
   z-index: 100;
   box-shadow: $box-shadow;
-  border-radius: 0 0 20px 20px;
 }
 
 main {
@@ -113,7 +112,7 @@ main {
   // Slider section
   .slider {
     width: 100%;
-    height: 60vh;
+    // height: 60vh;
     margin-bottom: $spacing-base;
     border-radius: $border-radius;
     overflow: hidden;
@@ -260,7 +259,7 @@ main {
 
 // Media queries para diseño responsive
 @media (max-width: 1920px) {
-  @include slider-height(45vh);
+  // @include slider-height(45vh);
 
   main .section-news {
     margin-top: 5%;
@@ -274,7 +273,7 @@ main {
     @include responsive-image(70%);
   }
 
-  @include slider-height(50vh);
+  // @include slider-height(50vh);
 
   main .section-news {
     margin-top: 5%;
@@ -290,7 +289,7 @@ main {
 }
 
 @media (max-width: 1280px) {
-  @include slider-height(60vh);
+  @include slider-height(90vh);
 
   main .img-section {
     img {
@@ -307,7 +306,7 @@ main {
     @include responsive-image(70%);
   }
 
-  @include slider-height(70vh);
+  // @include slider-height(70vh);
 
   main {
     .notice-primary {
