@@ -8,8 +8,8 @@
     [responsiveOptions]="responsiveOptions"
   >
     <ng-template let-product #item>
-      <div class="product-item">
-        <div class="product-image-container">
+      <div class="product-image-container">
+        <div class="product-item">
           <div class="product-image-wrapper">
             <img
               [src]="product.image"
@@ -30,22 +30,6 @@
         </div>
         <div class="product-content">
           <div class="product-name">{{ product.name }}</div>
-          <div class="product-details">
-            <div class="product-price">
-              {{ "$" + product.price }}
-            </div>
-            <div>
-              {{ product.description }}
-            </div>
-            <!-- <span class="product-actions">
-              <p-button
-                icon="pi pi-heart"
-                severity="secondary"
-                [outlined]="true"
-              />
-              <p-button icon="pi pi-shopping-cart" class="cart-button" />
-            </span> -->
-          </div>
         </div>
       </div>
     </ng-template>

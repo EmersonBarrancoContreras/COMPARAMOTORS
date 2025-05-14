@@ -12,7 +12,6 @@
 img {
   width: 100%;
   height: auto;
-  max-height: auto;
   object-fit: cover;
   object-position: center;
   border-radius: 8px; // Bordes redondeados para la imagen
@@ -20,33 +19,37 @@ img {
 
 .product-item {
   border-radius: 4px;
-  // margin: 8px;
-  // padding: 16px;
   width: 100%;
-  display: flex; // Añadimos flexbox para organizar imagen y texto
-  flex-direction: row; // Elementos en fila (horizontal)
-  align-items: end; // Alineamos al inicio
-  gap: 35%; // Espacio entre imagen y texto
+  height: 100%;
+  position: relative; /* Aseguramos posición relativa aquí */
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 
-// Contenedor de imagen ahora ocupa el lado izquierdo
+// Contenedor de imagen
 .product-image-container {
-  margin-bottom: 0;
+  margin: 0;
+  padding: 0;
   width: 100%;
-  flex-shrink: 0;
-  z-index: 0; // Aseguramos que la imagen esté detrás del texto
+  height: 100%;
+  position: relative; /* Posición relativa para contener el wrapper */
+  z-index: 0;
 }
 
-// Contenedor de texto ahora ocupa el lado derecho
+// Contenedor de texto
 .product-content {
-  width: 60%; // Texto ocupa el 60% del ancho
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  color: white;
+  padding: 0 2rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 2%;
-  z-index: 1;
-  color: white;
 }
 
 .product-details {
@@ -58,24 +61,25 @@ img {
 
 .product-image-wrapper {
   position: relative;
-  margin: 0;
   width: 100%;
-  height: 100%;
+  height: 600px; /* Altura fija para asegurar que se vea */
+  overflow: hidden;
 }
 
 .product-image {
+  display: block; /* Importante para mostrar la imagen correctamente */
   width: 100%;
-  height: auto;
-  max-height: 650px; // Aumentamos altura máxima
+  height: 100%;
   object-fit: cover;
-  display: block;
-   filter: brightness(50%);
+  object-position: center;
+  filter: brightness(50%);
 }
 
 .product-tag {
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
 }
 
 .product-name {
@@ -102,6 +106,7 @@ img {
 /* Para hacer que el carrusel ocupe el ancho completo */
 :host ::ng-deep .p-carousel {
   width: 100%;
+  position: relative;
 }
 
 :host ::ng-deep .p-carousel-container {
@@ -121,6 +126,14 @@ img {
   align-items: center;
   margin-top: auto;
   margin-bottom: auto;
+}
+
+/* Aseguramos que los controles del carrusel estén por encima */
+:host ::ng-deep .p-carousel-indicators,
+:host ::ng-deep .p-carousel-prev,
+:host ::ng-deep .p-carousel-next {
+  z-index: 2;
+  position: relative;
 }
 
 :host ::ng-deep .p-carousel-indicator-button:hover {

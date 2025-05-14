@@ -9,45 +9,31 @@
   </div>
 
   <div class="buttons" [class.active]="isMenuActive">
-    <div class="flex">
-      <p-iconfield iconPosition="left" class="ml-auto">
-        <p-inputicon>
-          <i class="pi pi-search"></i>
-        </p-inputicon>
-        <input
-          pInputText
-          type="text"
-          placeholder="Search"
-          style="background: white; color: rgb(77, 77, 77)"
-        />
-      </p-iconfield>
-      <div>
-        <p-menu #menu [model]="items" [popup]="true" />
-        <p-button
-          (click)="menu.toggle($event)"
-          icon="pi pi-user"
-          [rounded]="true"
-        ></p-button>
-      </div>
+    <div class="flex"></div>
+    <div class="social-links">
+      <a href="#" aria-label="Facebook"><i class="pi pi-facebook"></i></a>
+      <a href="#" aria-label="Twitter"><i class="pi pi-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="pi pi-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="pi pi-youtube"></i></a>
     </div>
     <div class="buttons-right">
       <div>
-        <p-button icon="pi pi-home" label="Inicio" [raised]="true"></p-button>
-      </div>
-      <div>
         <p-button
           icon="pi pi-phone"
-          label="Contactanos"
-          [raised]="true"
-        ></p-button>
-      </div>
-      <div>
-        <p-button
-          icon="pi pi-folder"
-          label="Portafolio"
+          label="Contactenos"
           [raised]="true"
         ></p-button>
       </div>
     </div>
+  </div>
+</section>
+<section>
+  <div class="menu">
+    <ul>
+      <li><a routerLink="/home" routerLinkActive="active">Inicio</a></li>
+      <li><a routerLink="/about" routerLinkActive="active">Nosotros</a></li>
+      <li><a routerLink="/services" routerLinkActive="active">Servicios</a></li>
+      <li><a routerLink="/contact" routerLinkActive="active">Contacto</a></li>
+    </ul>
   </div>
 </section>
