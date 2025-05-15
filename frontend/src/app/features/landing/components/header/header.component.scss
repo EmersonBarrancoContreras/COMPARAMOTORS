@@ -22,12 +22,6 @@
       }
     }
   }
-  .buttons-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 15px;
-  }
 
   .buttons {
     display: flex;
@@ -80,12 +74,34 @@
   flex-wrap: wrap;
   border-top: 2px solid rgba(255, 255, 255, 0.1);
 
+  & a {
+    text-decoration: none;
+    color: #ffffff;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      height: 3px;
+      width: -webkit-fill-available;
+    }
+
+    &:hover::after {
+      width: 100%;
+      background: #ff002f;
+      transform: translateY(-2px);
+      transition: all 0.5s ease;
+    }
+  }
+
   // Asegúrate de que los elementos hijos también hereden el comportamiento flex
   > * {
     display: flex;
     align-items: center;
     list-style: none;
-    gap: 15px;
+    gap: 2rem;
   }
 }
 
@@ -111,6 +127,79 @@
 
     i {
       font-size: 1rem;
+    }
+  }
+}
+
+:host ::ng-deep .p-ripple:hover {
+  background: #c92828;
+  transition: all 0.3s ease;
+  transform: translateY(-2px);
+  border: 1px solid #c92828;
+  color: white;
+}
+
+// Estilos para el diálogo
+:host ::ng-deep {
+  .p-dialog-top .p-dialog {
+    margin: 0%;
+    width: 100%;
+  }
+
+  .p-dialog {
+    .p-dialog-header {
+      display: none;
+    }
+
+    .p-dialog-content {
+      padding: 1.5rem;
+
+      // Estilos para el texto descriptivo (antes text-surface-500)
+      span.dialog-description {
+        display: block;
+        color: #6c757d;
+        margin-bottom: 2rem;
+
+        // Soporte para modo oscuro (antes dark:text-surface-400)
+        @media (prefers-color-scheme: dark) {
+          color: #ced4da;
+        }
+      }
+
+      // Contenedores de campos del formulario (antes flex items-center gap-4 mb-4/mb-8)
+      .form-field {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-direction: column;
+
+        &.form-field-large {
+          margin-bottom: 2rem;
+        }
+
+        // Estilos para las etiquetas (antes font-semibold w-24)
+        label {
+          font-weight: 600;
+          width: 6rem;
+        }
+
+        // Estilos para los inputs (antes flex-auto)
+        .p-iconfield {
+          flex: 1 1 auto;
+          width: 100%;
+          #search {
+            width: 100%;
+          }
+        }
+      }
+
+      // Contenedor de botones al final (antes flex justify-end gap-2)
+      .dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+      }
     }
   }
 }

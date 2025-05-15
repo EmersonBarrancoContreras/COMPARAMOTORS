@@ -181,8 +181,8 @@ main {
   // Notice secondary con 3 divisiones iguales
   .notice-secondary {
     @include section-base;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    // display: grid;
+    // grid-template-columns: repeat(10, 1fr);
     max-height: 220vh;
     gap: $spacing;
 
