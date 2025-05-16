@@ -1,0 +1,305 @@
+// login.component.scss
+
+// Variables
+$primary-color: #4f46e5;
+$primary-hover: #4338ca;
+$secondary-color: #64748b;
+$text-color: #1e293b;
+$light-text: #64748b;
+$error-color: #ef4444;
+$background-color: #f1f5f9;
+$card-background: #ffffff;
+$border-radius: 0.75rem;
+$input-border: #e2e8f0;
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$transition: all 0.3s ease;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Estilos principales
+.login-container {
+  @include flex-center;
+  min-height: 100vh;
+  background-color: $background-color;
+  background-image: radial-gradient(
+      at 40% 20%,
+      rgba(79, 70, 229, 0.1) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 80% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+  padding: 2rem;
+}
+
+.login-wrapper {
+  max-width: 450px;
+  width: 100%;
+}
+
+:host ::ng-deep .login-card {
+  border-radius: $border-radius;
+  box-shadow: $shadow-lg;
+  overflow: hidden;
+
+  .p-card-body {
+    padding: 2rem;
+  }
+
+  .p-card-content {
+    padding: 0;
+  }
+}
+
+:host ::ng-deep .p-card {
+  background: white !important;
+}
+
+.logo-container {
+  @include flex-center;
+  padding: 1.5rem 0;
+  flex-direction: column;
+
+  .logo {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 0.5rem;
+  }
+
+  .app-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0;
+  }
+}
+
+.welcome-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $text-color;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: $light-text;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.login-form {
+  @include flex-column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-field {
+  @include flex-column;
+  gap: 0.375rem;
+}
+
+.field-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-color;
+}
+
+:host ::ng-deep {
+  .p-inputtext,
+  .p-password-input {
+    font-size: 0.875rem;
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+    border-radius: 0.5rem;
+    border-color: $input-border;
+    transition: $transition;
+    background-color: $card-background;
+
+    &:hover,
+    &:focus {
+      border-color: $primary-color;
+    }
+  }
+
+  .p-inputtext {
+    color: $text-color;
+  }
+
+  .p-input-icon-left > i:first-of-type {
+    left: 0.75rem;
+    color: $secondary-color;
+  }
+
+  .p-password {
+    .p-password-panel {
+      border-radius: $border-radius;
+    }
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  .p-checkbox {
+    .p-checkbox-box {
+      background: white;
+      border: 1px solid black;
+
+      &.p-highlight {
+        border-color: $primary-color;
+        background-color: $primary-color;
+      }
+
+
+    &:hover {
+      border-color: 1px solid black;
+    }
+    }
+  }
+  .login-button {
+    background: $primary-color;
+    border-color: $primary-color;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    transition: $transition;
+
+    &:hover:not(:disabled) {
+      background: $primary-hover;
+      border-color: $primary-hover;
+    }
+  }
+
+  .p-divider {
+    margin: 1.5rem 0;
+
+    .p-divider-content {
+      background-color: $card-background;
+    }
+  }
+}
+
+:host ::ng-deep {
+  // Ajustar la posición y tamaño del icono
+  .p-input-icon-left {
+    display: block;
+    position: relative;
+    width: 100%;
+
+    > i:first-of-type {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $secondary-color;
+      font-size: 1.25rem; // Aumentar tamaño del icono (antes era probablemente 1rem)
+      z-index: 2;
+    }
+
+    // Asegurar que el input tenga suficiente padding a la izquierda
+    .p-inputtext,
+    .p-password .p-inputtext {
+      padding-left: 2.75rem; // Aumentamos el padding para acomodar iconos más grandes
+    }
+  }
+
+  // Estilo específico para input de contraseña
+  .p-password {
+    width: 100%;
+
+    .p-password-input {
+      width: 100%;
+      padding-left: 2.75rem;
+    }
+  }
+}
+
+.error-message {
+  color: $error-color;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-label {
+  color: $light-text;
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: 500;
+  transition: $transition;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.social-login {
+  @include flex-center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+:host ::ng-deep .social-button {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+
+  .pi {
+    font-size: 1rem;
+  }
+}
+
+.divider-text {
+  color: $light-text;
+  font-size: 0.75rem;
+  padding: 0 0.5rem;
+}
+
+.register-prompt {
+  text-align: center;
+  font-size: 0.875rem;
+  color: $light-text;
+
+  .register-link {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    transition: $transition;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

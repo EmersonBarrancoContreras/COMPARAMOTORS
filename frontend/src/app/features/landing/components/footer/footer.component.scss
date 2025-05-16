@@ -51,7 +51,7 @@ h3 {
     bottom: -8px;
     height: 3px;
     width: 40px;
-    background-color: #ff5a91;
+    background-color: #ff002f;
   }
 }
 
@@ -72,14 +72,14 @@ h3 {
         display: inline-block;
 
         &:hover {
-          color: #ff5a91;
+          color: #ff002f;
           padding-left: 5px;
         }
 
         &:before {
           content: "›";
           margin-right: 8px;
-          color: #ff5a91;
+          color: #ff002f;
         }
       }
     }
@@ -100,7 +100,7 @@ h3 {
 
       i {
         margin-right: 10px;
-        color: #ff5a91;
+        color: #ff002f;
         font-size: 1rem;
       }
     }
@@ -122,7 +122,7 @@ h3 {
       transition: all 0.3s ease;
 
       &:hover {
-        background-color: #ff5a91;
+        background-color: #ff002f;
         transform: translateY(-3px);
       }
 
@@ -160,14 +160,14 @@ h3 {
       padding: 0.8rem 1rem;
       border-radius: 4px;
       border: none;
-      background-color: #ff5a91;
+      background-color: #ff002f;
       color: #ffffff;
       cursor: pointer;
       transition: background-color 0.3s ease;
       font-weight: 600;
 
       &:hover {
-        background-color: #ff3876;
+        background-color: #de0029;
       }
     }
   }
@@ -199,7 +199,7 @@ h3 {
       transition: color 0.3s ease;
 
       &:hover {
-        color: #ff5a91;
+        color: #de0029;
       }
     }
   }

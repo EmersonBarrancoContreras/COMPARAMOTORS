@@ -19,6 +19,16 @@ export const routes: Routes = [
     title: 'Noticias',
     loadComponent: () => import('@shared/components/news/news.component'),
   },
+  {
+    path: 'login',
+    title: 'Iniciar sesión',
+    loadComponent: () => import('./features/auth/login/login.component'),
+  },
+  {
+    path: 'register',
+    title: 'Registro',
+    loadComponent: () => import('./features/auth/register/register.component'),
+  },
   /*redirección de la pagina por defecto en landing*/
   {
     path: '',

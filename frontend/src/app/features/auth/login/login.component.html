@@ -1,0 +1,148 @@
+<!-- login.component.html -->
+<div class="login-container">
+  <div class="login-wrapper">
+    <p-toast position="top-right"></p-toast>
+
+    <p-card styleClass="login-card">
+      <ng-template pTemplate="header" class="card-header">
+        <div class="logo-container">
+          <img src="@assets/img/logo/logo2.png" alt="Logo" class="logo" />
+          <h1 class="app-name">Mi Aplicación</h1>
+        </div>
+      </ng-template>
+
+      <h2 class="welcome-text">¡Bienvenido de nuevo!</h2>
+      <p class="subtitle">Ingresa tus credenciales para continuar</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-field">
+          <label for="email" class="field-label">Correo electrónico</label>
+          <span class="p-input-icon-left w-full">
+            <i class="pi pi-envelope"></i>
+            <input
+              id="email"
+              type="email"
+              pInputText
+              formControlName="email"
+              placeholder="correo@ejemplo.com"
+              class="w-full"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  loginForm.get('email')?.invalid &&
+                  loginForm.get('email')?.touched
+              }"
+            />
+          </span>
+          @if (loginForm.get('email')?.invalid &&
+          loginForm.get('email')?.touched) {
+          <small class="error-message">
+            @if (loginForm.get('email')?.errors?.['required']) { El correo
+            electrónico es obligatorio } @else if
+            (loginForm.get('email')?.errors?.['email']) { Formato de correo
+            electrónico inválido }
+          </small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="password" class="field-label">Contraseña</label>
+          <span class="p-input-icon-left w-full">
+            <i class="pi pi-lock"></i>
+            <p-password
+              id="password"
+              formControlName="password"
+              [feedback]="false"
+              [toggleMask]="true"
+              styleClass="w-full"
+              inputStyleClass="w-full"
+              placeholder="Ingresa tu contraseña"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  loginForm.get('password')?.invalid &&
+                  loginForm.get('password')?.touched
+              }"
+            ></p-password>
+          </span>
+          @if (loginForm.get('password')?.invalid &&
+          loginForm.get('password')?.touched) {
+          <small class="error-message">
+            @if (loginForm.get('password')?.errors?.['required']) { La
+            contraseña es obligatoria } @else if
+            (loginForm.get('password')?.errors?.['minlength']) { La contraseña
+            debe tener al menos 8 caracteres }
+          </small>
+          }
+        </div>
+
+        <div class="form-options">
+          <div class="remember-me">
+            <p-checkbox
+              formControlName="rememberMe"
+              [binary]="true"
+              inputId="rememberMe"
+            ></p-checkbox>
+            <label for="rememberMe" class="checkbox-label">Recordarme</label>
+          </div>
+          <a
+            href="javascript:void(0)"
+            class="forgot-password"
+            (click)="navigateToForgotPassword()"
+          >
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
+
+        <button
+          pButton
+          pRipple
+          type="submit"
+          label="Iniciar sesión"
+          class="login-button p-button-raised"
+          [loading]="loading"
+          [disabled]="loading"
+        ></button>
+      </form>
+
+      <p-divider align="center">
+        <span class="divider-text">O continúa con</span>
+      </p-divider>
+
+      <div class="social-login">
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-rounded p-button-outlined p-button-secondary social-button"
+        >
+          <i class="pi pi-google"></i>
+        </button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-rounded p-button-outlined p-button-secondary social-button"
+        >
+          <i class="pi pi-facebook"></i>
+        </button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-rounded p-button-outlined p-button-secondary social-button"
+        >
+          <i class="pi pi-apple"></i>
+        </button>
+      </div>
+
+      <div class="register-prompt">
+        <span>¿No tienes una cuenta?</span>
+        <a
+          href="javascript:void(0)"
+          class="register-link"
+          (click)="navigateToRegister()"
+          >Registrarse</a
+        >
+      </div>
+    </p-card>
+  </div>
+</div>

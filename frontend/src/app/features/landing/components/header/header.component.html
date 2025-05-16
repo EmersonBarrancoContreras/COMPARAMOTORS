@@ -9,7 +9,25 @@
   </div>
 
   <div class="buttons" [class.active]="isMenuActive">
-    <div class="flex"></div>
+    <div class="search-container" [class.search-active]="isSearchActive">
+      <div class="search-input-container">
+        <span class="p-input-icon-left">
+          <input
+            type="text"
+            pInputText
+            placeholder="Buscar..."
+            (keyup.enter)="onSearch($event)"
+            (blur)="onSearchBlur()"
+            #searchInput
+          />
+        </span>
+      </div>
+      <p-button
+        icon="pi pi-search"
+        styleClass="search-button"
+        (onClick)="toggleSearch()"
+      ></p-button>
+    </div>
     <div class="social-links">
       <a href="#" aria-label="Facebook"><i class="pi pi-facebook"></i></a>
       <a href="#" aria-label="Twitter"><i class="pi pi-twitter"></i></a>
@@ -17,10 +35,11 @@
       <a href="#" aria-label="YouTube"><i class="pi pi-youtube"></i></a>
     </div>
     <div>
-      <p-button (click)="showDialog('top')" icon="pi pi-search"></p-button>
-    </div>
-    <div class="buttons-right">
-      <p-button icon="pi pi-phone" label="Contactenos" />
+      <p-button
+        label="Iniciar Sesión"
+        class="menu-button"
+        [routerLink]="['/login']"
+      ></p-button>
     </div>
   </div>
 </section>
@@ -35,25 +54,3 @@
     </ul>
   </div>
 </section>
-
-<!-- Diálogo -->
-<p-dialog
-  [modal]="true"
-  [(visible)]="visible"
-  [position]="position"
-  class="modal"
->
-  <div class="form-field form-field-large">
-    <label for="search">Busqueda</label>
-    <p-iconfield iconPosition="left" class="input-search">
-      <p-inputicon>
-        <i class="pi pi-search"></i>
-      </p-inputicon>
-      <input pInputText id="search" placeholder="Search" autocomplete="on" />
-    </p-iconfield>
-  </div>
-  <div class="dialog-actions">
-    <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-    <p-button label="Save" (click)="visible = false" />
-  </div>
-</p-dialog>
