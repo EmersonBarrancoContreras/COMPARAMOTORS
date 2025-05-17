@@ -1,8 +1,6 @@
-// login.component.scss
-
 // Variables
-$primary-color: #4f46e5;
-$primary-hover: #4338ca;
+$primary-color: #ed002c;
+$primary-hover: #ff002f;
 $secondary-color: #64748b;
 $text-color: #1e293b;
 $light-text: #64748b;
@@ -72,18 +70,15 @@ $transition: all 0.3s ease;
   @include flex-center;
   padding: 1.5rem 0;
   flex-direction: column;
+  position: relative;
+  z-index: 2;
 
   .logo {
-    width: 64px;
-    height: 64px;
+    width: 50%;
+    height: 100px;
     margin-bottom: 0.5rem;
-  }
-
-  .app-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $primary-color;
-    margin: 0;
+    object-fit: contain;
+    filter: none;
   }
 }
 
@@ -164,10 +159,9 @@ $transition: all 0.3s ease;
         background-color: $primary-color;
       }
 
-
-    &:hover {
-      border-color: 1px solid black;
-    }
+      &:hover {
+        border-color: 1px solid black;
+      }
     }
   }
   .login-button {
@@ -178,10 +172,12 @@ $transition: all 0.3s ease;
     padding: 0.75rem;
     margin-top: 0.5rem;
     transition: $transition;
+    color: white;
 
     &:hover:not(:disabled) {
       background: $primary-hover;
       border-color: $primary-hover;
+      color: white;
     }
   }
 
