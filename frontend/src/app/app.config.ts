@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import MyPreset from './mypreset';
+import { provideHttpWithInterceptors } from './core/providers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,5 +17,6 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideAnimations(),
+    provideHttpWithInterceptors(), // Usar nuestros interceptores configurados
   ],
 };

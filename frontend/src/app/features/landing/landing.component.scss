@@ -168,6 +168,8 @@ main {
       display: flex;
       align-items: center;
       grid-column: 1 / span 2;
+      justify-content: center;
+      gap: 20px;
     }
   }
 

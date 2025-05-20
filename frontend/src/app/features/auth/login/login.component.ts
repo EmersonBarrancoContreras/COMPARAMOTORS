@@ -1,5 +1,5 @@
 // login.component.ts
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,8 +8,9 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../../../core/services/auth.service';
 
 // PrimeNG Components
 import { CardModule } from 'primeng/card';
@@ -52,9 +53,16 @@ export default class LoginComponent {
   });
 
   loading = false;
-
-  constructor(private router: Router, private messageService: MessageService) {}
-
+  private authService = inject(AuthService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
+  ngOnInit() {
+    // Si el usuario ya está autenticado, redirigirlo a la página principal
+    if (this.authService.checkAuthenticated()) {
+      this.router.navigate(['/landing']);
+    }
+  }
   onSubmit() {
     if (this.loginForm.valid) {
       this.loading = true;
@@ -62,25 +70,31 @@ export default class LoginComponent {
       // Extraer los valores del formulario
       const { email, password, rememberMe } = this.loginForm.value;
 
-      // Llamar al servicio de autenticación (implementación ficticia)
-      // this.authService.login(email!, password!, rememberMe!).subscribe({
-      //   next: () => {
-      //     this.messageService.add({
-      //       severity: 'success',
-      //       summary: 'Inicio de sesión exitoso',
-      //       detail: 'Bienvenido nuevamente!',
-      //     });
-      //     setTimeout(() => this.router.navigate(['/dashboard']), 1000);
-      //   },
-      //   error: (err) => {
-      //     this.loading = false;
-      //     this.messageService.add({
-      //       severity: 'error',
-      //       summary: 'Error',
-      //       detail: 'Credenciales incorrectas. Por favor intenta nuevamente.',
-      //     });
-      //   },
-      // });
+      // Llamar al servicio de autenticación
+      this.authService.login(email!, password!).subscribe({
+        next: (response) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Inicio de sesión exitoso',
+            detail: 'Bienvenido nuevamente!',
+          });
+
+          // Obtener la URL de retorno de los query params o usar la página principal
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/landing';
+          setTimeout(() => this.router.navigate([returnUrl]), 1000);
+        },
+        error: (err) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: err.message || 'Credenciales incorrectas. Por favor intenta nuevamente.',
+          });
+        },
+        complete: () => {
+          this.loading = false;
+        }
+      });
     } else {
       // Marcar todos los campos como tocados para mostrar errores
       this.loginForm.markAllAsTouched();

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,17 @@ export const routes: Routes = [
     path: 'register',
     title: 'Registro',
     loadComponent: () => import('./features/auth/register/register.component'),
+  },
+  {
+    path: 'profile',
+    title: 'Mi Perfil',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/auth/profile/profile.component'),
+  },
+  {
+    path: 'unauthorized',
+    title: 'Acceso No Autorizado',
+    loadComponent: () => import('./features/auth/unauthorized/unauthorized.component'),
   },
   /*redirección de la pagina por defecto en landing*/
   {
