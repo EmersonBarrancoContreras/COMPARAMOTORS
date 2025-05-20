@@ -28,6 +28,23 @@ $transition: all 0.3s ease;
   flex-direction: column;
 }
 
+// Estilos para los toasts
+:host ::ng-deep {
+  .login-toast {
+    z-index: 9999 !important;
+
+    .p-toast-message-error {
+      background-color: rgba($error-color, 0.95) !important;
+      border-left: 6px solid ($error-color, 10%) !important;
+      color: white !important;
+
+      .p-toast-detail {
+        font-weight: 500 !important;
+      }
+    }
+  }
+}
+
 // Estilos principales
 .login-container {
   @include flex-center;

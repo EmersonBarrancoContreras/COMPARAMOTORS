@@ -1,7 +1,7 @@
 <!-- login.component.html -->
 <div class="login-container">
   <div class="login-wrapper">
-    <p-toast position="top-right"></p-toast>
+    <p-toast position="top-right" [baseZIndex]="5000" [preventDuplicates]="true" styleClass="login-toast"></p-toast>
 
     <p-card styleClass="login-card">
       <ng-template pTemplate="header" class="card-header">

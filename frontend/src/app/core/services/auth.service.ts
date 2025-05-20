@@ -1,6 +1,6 @@
 // auth.service.ts
 import { Injectable, inject, signal, PLATFORM_ID, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {
   Observable,
@@ -10,6 +10,8 @@ import {
   BehaviorSubject,
   of,
   switchMap,
+  take,
+  finalize,
 } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { User } from '../models/user.model';
@@ -26,15 +28,23 @@ interface AuthTokens {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {  private http = inject(HttpClient);
+export class AuthService {
+  private http = inject(HttpClient);
   private router = inject(Router);
   private notificationService = inject(NotificationService);
   private apiUrl = environment.apiUrl;
   private isBrowser: boolean;
 
+  // Agregar un flag para controlar si hay un login en progreso
+  private loginInProgress = false;
+
+  // Añadir bandera para controlar redirecciones múltiples
+  private redirectingToLogin = false;
+
   // Estado del usuario usando signals
   readonly currentUser = signal<User | null>(null);
   readonly authStatus = signal<boolean>(false);
+  readonly isLoading = signal<boolean>(false);
 
   // Para control del refresh token
   private refreshTokenInProgress = false;
@@ -48,23 +58,71 @@ export class AuthService {  private http = inject(HttpClient);
   }
 
   login(username: string, password: string): Observable<AuthTokens> {
+    // Evitar múltiples peticiones simultáneas de login
+    if (this.loginInProgress) {
+      console.log('Login en progreso, evitando petición duplicada');
+      return throwError(() => new Error('Login en progreso'));
+    }
+
+    this.loginInProgress = true;
+    this.isLoading.set(true);
+
+    // Log detallado de la petición para depuración
+    console.log('Intentando login con email:', username);
+    console.log('URL de la API:', `${this.apiUrl}/login`);
+
+    // Crear el payload adaptado al backend (solo username y password)
+    const loginPayload = {
+      username: username,
+      password: password,
+    };
+
     return this.http
-      .post<AuthTokens>(`${this.apiUrl}/login`, {
-        username,
-        password,
-      })
+      .post<AuthTokens>(`${this.apiUrl}/login`, loginPayload)
       .pipe(
+        // Operador take para completar después de un intento
+        take(1),
+
+        // Manejar respuesta exitosa
         tap((response) => {
+          console.log('Login exitoso:', response);
+
+          if (!response || !response.token) {
+            throw new Error('Respuesta de autenticación inválida');
+          }
+
           this.storeTokens(response);
           this.decodeAndSetUser(response.token);
-          this.notificationService.success('Has iniciado sesión correctamente');
         }),
-        catchError((error) => {
-          this.notificationService.error('Error en el inicio de sesión');
-          return throwError(() => error);
+
+        // Manejar errores
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error en login:', error);
+
+          let errorMsg = 'Error al iniciar sesión';
+
+          if (error.status === 401) {
+            errorMsg = 'Credenciales incorrectas';
+            this.notificationService.error(errorMsg);
+          } else if (error.status === 0) {
+            errorMsg = 'No se pudo conectar con el servidor';
+            this.notificationService.error(errorMsg);
+          } else if (error.error?.message) {
+            errorMsg = error.error.message;
+            this.notificationService.error(errorMsg);
+          }
+
+          return throwError(() => new Error(errorMsg));
+        }),
+
+        // Siempre ejecutar al finalizar, tanto en éxito como en error
+        finalize(() => {
+          this.loginInProgress = false;
+          this.isLoading.set(false);
         })
       );
   }
+
   refreshToken(): Observable<string> {
     // Evitar múltiples llamadas paralelas de refresh token
     if (this.refreshTokenInProgress) {
@@ -81,7 +139,7 @@ export class AuthService {  private http = inject(HttpClient);
     const refreshToken = localStorage.getItem('refreshToken');
 
     if (!refreshToken) {
-      this.logout();
+      this.logoutWithoutRedirect();
       return throwError(() => new Error('Refresh token no disponible'));
     }
 
@@ -100,12 +158,21 @@ export class AuthService {  private http = inject(HttpClient);
         }),
         catchError((error) => {
           this.refreshTokenInProgress = false;
-          this.logout();
+          this.logoutWithoutRedirect();
           return throwError(() => error);
         })
       );
   }
+
   logout(): void {
+    // Evitar múltiples redirecciones al login
+    if (this.redirectingToLogin) {
+      console.log('Ya se está redireccionando al login, evitando redirección duplicada');
+      return;
+    }
+
+    this.redirectingToLogin = true;
+
     // Remover tokens del almacenamiento
     if (this.isBrowser) {
       localStorage.removeItem('token');
@@ -117,9 +184,23 @@ export class AuthService {  private http = inject(HttpClient);
     this.authStatus.set(false);
 
     // Redireccionar al login
-    this.router.navigate(['/login']);
-    this.notificationService.info('Has cerrado sesión');
+    this.router.navigate(['/login']).then(() => {
+      this.redirectingToLogin = false;
+      this.notificationService.info('Has cerrado sesión');
+    });
   }
+
+  // Método para logout sin redirección (usado por refreshToken)
+  private logoutWithoutRedirect(): void {
+    if (this.isBrowser) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+    }
+
+    this.currentUser.set(null);
+    this.authStatus.set(false);
+  }
+
   getToken(): string | null {
     if (!this.isBrowser) return null;
     return localStorage.getItem('token');
@@ -165,7 +246,12 @@ export class AuthService {  private http = inject(HttpClient);
 
         // Si el token expira en menos de 5 minutos (300 segundos), intentar renovarlo
         if (expiresIn < 300) {
-          this.refreshToken().subscribe();
+          this.refreshToken().subscribe({
+            error: () => {
+              // Si falla el refresh, limpiar datos pero NO redireccionar automáticamente
+              this.logoutWithoutRedirect();
+            }
+          });
         } else {
           this.decodeAndSetUser(token);
         }
@@ -174,14 +260,15 @@ export class AuthService {  private http = inject(HttpClient);
         // Si hay un refresh token, intentar renovar
         if (this.getRefreshToken()) {
           this.refreshToken().subscribe({
-            error: () => this.logout(),
+            error: () => this.logoutWithoutRedirect(), // Usamos logout sin redirección
           });
         } else {
-          this.logout();
+          this.logoutWithoutRedirect(); // Usamos logout sin redirección
         }
       }
     }
   }
+
   private storeTokens(tokens: AuthTokens): void {
     if (!this.isBrowser) return;
 
@@ -216,7 +303,7 @@ export class AuthService {  private http = inject(HttpClient);
       this.authStatus.set(true);
     } catch (error) {
       console.error('Error al decodificar el token', error);
-      this.logout();
+      this.logoutWithoutRedirect(); // Usamos logout sin redirección
     }
   }
 }

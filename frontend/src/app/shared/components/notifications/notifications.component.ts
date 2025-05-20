@@ -25,14 +25,21 @@ export class NotificationsComponent implements OnInit {
       }
     );
   }
-
   private showToast(notification: Notification): void {
-    this.messageService.add({
-      severity: notification.type,
-      summary: this.getSummary(notification.type),
-      detail: notification.message,
-      life: notification.duration || 5000,
-    });
+    // Limpiar mensajes similares anteriores para evitar duplicados
+    this.messageService.clear();
+
+    // Agregar un pequeño retraso para asegurarse de que la limpieza se completa
+    setTimeout(() => {
+      this.messageService.add({
+        severity: notification.type,
+        summary: this.getSummary(notification.type),
+        detail: notification.message,
+        life: notification.duration || 5000,
+        // Hacer que los errores sean pegajosos por defecto
+        sticky: notification.type === 'error',
+      });
+    }, 100);
   }
 
   private getSummary(type: string): string {

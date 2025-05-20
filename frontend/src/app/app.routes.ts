@@ -29,12 +29,17 @@ export const routes: Routes = [
     path: 'register',
     title: 'Registro',
     loadComponent: () => import('./features/auth/register/register.component'),
-  },
-  {
+  },  {
     path: 'profile',
     title: 'Mi Perfil',
     canActivate: [authGuard],
     loadComponent: () => import('./features/auth/profile/profile.component'),
+  },
+  {
+    path: 'dashboard',
+    title: 'Dashboard',
+    loadComponent: () => import('./features/auth/profile/profile.component'),
+    // Usamos el mismo componente que profile temporalmente en lugar de redirectTo
   },
   {
     path: 'unauthorized',

@@ -1,5 +1,5 @@
 // login.component.ts
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -21,6 +21,7 @@ import { DividerModule } from 'primeng/divider';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 import { RippleModule } from 'primeng/ripple';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +43,7 @@ import { RippleModule } from 'primeng/ripple';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export default class LoginComponent {
+export default class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
@@ -57,53 +58,44 @@ export default class LoginComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private messageService = inject(MessageService);
-  ngOnInit() {
+    ngOnInit() {
     // Si el usuario ya está autenticado, redirigirlo a la página principal
     if (this.authService.checkAuthenticated()) {
       this.router.navigate(['/landing']);
     }
   }
-  onSubmit() {
-    if (this.loginForm.valid) {
-      this.loading = true;
 
-      // Extraer los valores del formulario
-      const { email, password, rememberMe } = this.loginForm.value;
-
-      // Llamar al servicio de autenticación
-      this.authService.login(email!, password!).subscribe({
-        next: (response) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Inicio de sesión exitoso',
-            detail: 'Bienvenido nuevamente!',
-          });
-
-          // Obtener la URL de retorno de los query params o usar la página principal
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/landing';
-          setTimeout(() => this.router.navigate([returnUrl]), 1000);
-        },
-        error: (err) => {
-          this.loading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err.message || 'Credenciales incorrectas. Por favor intenta nuevamente.',
-          });
-        },
-        complete: () => {
-          this.loading = false;
-        }
-      });
-    } else {
-      // Marcar todos los campos como tocados para mostrar errores
-      this.loginForm.markAllAsTouched();
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Formulario inválido',
-        detail: 'Por favor completa todos los campos requeridos.',
-      });
+  // En login.component.ts
+  onSubmit(): void {
+    if (this.loginForm.invalid || this.loading) {
+      return;
     }
+
+    // Obtener valores del formulario
+    const { email, password } = this.loginForm.value;
+
+    // Marcar como en proceso de envío
+    this.loading = true;
+
+    // Deshabilitar el formulario durante el envío
+    this.loginForm.disable();
+
+    // Hacer una sola petición
+    this.authService.login(email!, password!).subscribe({
+      next: () => {
+        console.log('Login exitoso, redirigiendo...');
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error) => {
+        console.error('Error de login en componente:', error);
+        // El mensaje ya ha sido mostrado por el servicio
+        this.loginForm.enable();
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
   }
 
   navigateToRegister() {

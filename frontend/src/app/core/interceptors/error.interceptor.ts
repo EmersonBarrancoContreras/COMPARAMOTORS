@@ -9,20 +9,41 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const notificationService = inject(NotificationService);
 
-  return next(req).pipe(
-    // Reintento para errores de red, 2 reintentos máximo
+  return next(req).pipe(    // Reintento para errores de red, 2 reintentos máximo
     retry({ count: 2, delay: 1000, resetOnSuccess: true }),
-    catchError((error: HttpErrorResponse) => {
-      // Para la ruta de login, no mostramos notificación aquí ya que se maneja en el servicio
-      const isLoginRequest = req.url.includes('/login') && req.method === 'POST';
+    catchError((error: HttpErrorResponse) => {      console.log('Error interceptado:', error.status, req.url);      // Para la ruta de login, tratamos los errores de manera diferente
+      const isLoginRequest =
+        req.url.includes('/login') &&
+        req.method === 'POST';      console.log('ErrorInterceptor - URL:', req.url, 'Status:', error.status, 'isLoginRequest:', isLoginRequest);
+      // Si es una petición de login con error 401, propagamos el error original
+      // para que el componente de login pueda manejarlo correctamente
+      if (isLoginRequest) {
+        console.log('Error de login detectado en interceptor, propagando al componente:', error);
 
-      if (error.status === 401 && !isLoginRequest) {
+        // NO mostramos notificaciones aquí para evitar duplicidad,
+        // dejamos que el componente login lo maneje
+        return throwError(() => error);
+      }
+
+      // Evitar redireccionar a login si ya estamos procesando un error de autenticación
+      const isProcessing401 = localStorage.getItem('processing_auth_error');
+
+      if (error.status === 401 && !isLoginRequest && !isProcessing401) {
+        // Establecer flag para evitar múltiples redirecciones
+        localStorage.setItem('processing_auth_error', 'true');
+
         // Token expirado o no válido (solo para otras rutas, no login)
         if (typeof localStorage !== 'undefined') {
           localStorage.removeItem('token');
         }
+
         notificationService.warning('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
-        router.navigate(['/login']);      }
+
+        // Navegar al login y limpiar el flag cuando termine la navegación
+        router.navigate(['/login']).then(() => {
+          localStorage.removeItem('processing_auth_error');
+        });
+      }
 
       // Mensaje de error personalizado según el código de estado
       let errorMessage = 'Ha ocurrido un error desconocido';
