@@ -1,13 +1,6 @@
 // auth.model.ts
-export interface AuthTokens {
-  token: string;
-  refreshToken?: string;
-  message?: string;
-}
-
 export interface LoginRequest {
   username: string;
-  email?: string;
   password: string;
 }
 
@@ -19,6 +12,6 @@ export interface LoginResponse {
     username?: string;
     email?: string;
     roles?: string[];
+    rol?: string;
   };
-  message?: string;
 }

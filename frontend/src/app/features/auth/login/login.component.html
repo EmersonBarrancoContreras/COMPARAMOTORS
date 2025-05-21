@@ -1,7 +1,12 @@
 <!-- login.component.html -->
 <div class="login-container">
   <div class="login-wrapper">
-    <p-toast position="top-right" [baseZIndex]="5000" [preventDuplicates]="true" styleClass="login-toast"></p-toast>
+    <p-toast
+      position="top-right"
+      [baseZIndex]="5000"
+      [preventDuplicates]="true"
+      styleClass="login-toast"
+    ></p-toast>
 
     <p-card styleClass="login-card">
       <ng-template pTemplate="header" class="card-header">
@@ -82,11 +87,7 @@
             ></p-checkbox>
             <label for="rememberMe" class="checkbox-label">Recordarme</label>
           </div>
-          <a
-            href="javascript:void(0)"
-            class="forgot-password"
-            (click)="navigateToForgotPassword()"
-          >
+          <a href="javascript:void(0)" class="forgot-password">
             ¿Olvidaste tu contraseña?
           </a>
         </div>
@@ -97,8 +98,6 @@
           type="submit"
           label="Iniciar sesión"
           class="login-button p-button-raised"
-          [loading]="loading"
-          [disabled]="loading"
         ></button>
       </form>
 
@@ -135,12 +134,7 @@
 
       <div class="register-prompt">
         <span>¿No tienes una cuenta?</span>
-        <a
-          href="javascript:void(0)"
-          class="register-link"
-          (click)="navigateToRegister()"
-          >Registrarse</a
-        >
+        <a href="javascript:void(0)" class="register-link">Registrarse</a>
       </div>
     </p-card>
   </div>

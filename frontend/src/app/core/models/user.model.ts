@@ -1,28 +1,19 @@
 // user.model.ts
-import { Role } from './role.model';
+export interface Role {
+  name: string;
+  permissions?: Permission[];
+}
+
+export interface Permission {
+  name: string;
+}
 
 export interface User {
   id?: number;
   username: string;
-  password?: string;
   email: string;
-  enabled?: boolean;
   roles?: Role[];
-  name?: string;
-}
-
-export interface UserRequest {
-  username: string;
-  password: string;
-  email: string;
-  name?: string;
-}
-
-export interface UserResponse {
-  id: number;
-  username: string;
-  email: string;
-  enabled: boolean;
-  roles: Role[];
+  password?: string;
+  enabled?: boolean;
   name?: string;
 }
