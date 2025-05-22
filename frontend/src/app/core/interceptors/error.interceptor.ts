@@ -2,28 +2,28 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, throwError, retry } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { NotificationService } from '../services/notification.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const notificationService = inject(NotificationService);
 
-  return next(req).pipe(    // Reintento para errores de red, 2 reintentos máximo
-    retry({ count: 2, delay: 1000, resetOnSuccess: true }),
-    catchError((error: HttpErrorResponse) => {      console.log('Error interceptado:', error.status, req.url);      // Para la ruta de login, tratamos los errores de manera diferente
-      const isLoginRequest =
-        req.url.includes('/login') &&
-        req.method === 'POST';      console.log('ErrorInterceptor - URL:', req.url, 'Status:', error.status, 'isLoginRequest:', isLoginRequest);
-      // Si es una petición de login con error 401, propagamos el error original
-      // para que el componente de login pueda manejarlo correctamente
-      if (isLoginRequest) {
-        console.log('Error de login detectado en interceptor, propagando al componente:', error);
+  return next(req).pipe(
+    // Reintento para errores de red, 2 reintentos máximo
 
-        // NO mostramos notificaciones aquí para evitar duplicidad,
-        // dejamos que el componente login lo maneje
-        return throwError(() => error);
-      }
+    catchError((error: HttpErrorResponse) => {
+      console.log('Error interceptado:', error.status, req.url); // Para la ruta de login, tratamos los errores de manera diferente
+      const isLoginRequest =
+        req.url.includes('/login') && req.method === 'POST';
+      console.log(
+        'ErrorInterceptor - URL:',
+        req.url,
+        'Status:',
+        error.status,
+        'isLoginRequest:',
+        isLoginRequest
+      );
 
       // Evitar redireccionar a login si ya estamos procesando un error de autenticación
       const isProcessing401 = localStorage.getItem('processing_auth_error');
@@ -37,7 +37,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           localStorage.removeItem('token');
         }
 
-        notificationService.warning('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+        notificationService.warning(
+          'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.'
+        );
 
         // Navegar al login y limpiar el flag cuando termine la navegación
         router.navigate(['/login']).then(() => {
@@ -62,7 +64,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           case 401:
             // Para 401 en solicitudes de login, personalizamos el mensaje
             if (isLoginRequest) {
-              errorMessage = 'Credenciales incorrectas. Por favor, verifica tu usuario y contraseña.';
+              errorMessage =
+                'Credenciales incorrectas. Por favor, verifica tu usuario y contraseña.';
             } else {
               errorMessage = 'No autorizado. Tu sesión ha expirado.';
             }
@@ -77,10 +80,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             errorType = 'info';
             break;
           case 500:
-            errorMessage = 'Error en el servidor. Por favor, inténtalo más tarde';
+            errorMessage =
+              'Error en el servidor. Por favor, inténtalo más tarde';
             break;
           case 0:
-            errorMessage = 'No se pudo conectar con el servidor. Comprueba tu conexión a internet';
+            errorMessage =
+              'No se pudo conectar con el servidor. Comprueba tu conexión a internet';
             errorType = 'warning';
             break;
           default:

@@ -1,5 +1,5 @@
 // login.component.ts
-import { Component, inject, signal, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -17,10 +17,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
 // Services e interfaces
-import {
-  AuthService,
-  AuthCredentials,
-} from '../../../core/services/auth.service';
+import { AuthService, AuthCredentials } from '@services/auth.service';
+import { firstValueFrom } from 'rxjs';
+import { log } from 'console';
 
 @Component({
   selector: 'app-login',
@@ -41,15 +40,14 @@ import {
   styleUrl: './login.component.scss',
   providers: [MessageService],
 })
-export default class LoginComponent {
-  private fb = inject(FormBuilder);
+export default class LoginComponent implements OnInit {
   private authService = inject(AuthService);
-  private messageService = inject(MessageService);
+  private fb = inject(FormBuilder);
   private router = inject(Router);
-  private platformId = inject(PLATFORM_ID);
+  private messageService = inject(MessageService);
+  private readonly platformId = inject(PLATFORM_ID);
 
   isLoading = signal(false);
-  loginAttempts = 0; // Contador de intentos para evitar bucles
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -59,98 +57,72 @@ export default class LoginComponent {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // Verificar si ya hay un usuario autenticado
-      const currentUser = this.authService.authUser();
-      if (currentUser) {
-        const dashboardRoute = this.authService.getDashboardRoute(
-          currentUser.rol
-        );
-        void this.router.navigate([dashboardRoute]);
-        return;
-      }
-
-      // Cargar email guardado
-      const savedEmail = this.authService.getStoredEmail();
-      if (savedEmail) {
-        this.loginForm.patchValue({
-          email: savedEmail,
-          rememberMe: true,
-        });
+      const currenUser = this.authService.getUserData();
+      if (currenUser) {
+        this.router.navigate(['/']);
       }
     }
-  }
 
-  isFieldInvalid(field: string): boolean {
-    const control = this.loginForm.get(field);
-    return !!(control && control.invalid && (control.dirty || control.touched));
+    //cargar email guardado si existe
+
+    const savedEmail = this.authService.getSavedEmail();
+    if (savedEmail) {
+      this.loginForm.patchValue({
+        email: savedEmail,
+        rememberMe: true,
+      });
+    }
   }
 
   async onSubmit() {
-    // Validar formulario y estado de carga
-    if (!this.loginForm.valid || this.isLoading()) {
-      return;
-    }
+    if (this.loginForm.valid) {
+      this.isLoading.set(true);
 
-    // Verificar límite de intentos (medida anti-bucle)
-    if (this.loginAttempts >= 3) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Demasiados intentos',
-        detail:
-          'Has excedido el número de intentos. Recarga la página para intentarlo de nuevo.',
-      });
-      return;
-    }
+      try {
+        const formValues = this.loginForm.value;
+        const loginData: AuthCredentials = {
+          username: formValues.email ?? '',
+          password: formValues.password ?? '',
+        };
 
-    this.loginAttempts++;
-    this.isLoading.set(true);
-    this.loginForm.disable();
+        const response = await firstValueFrom(
+          this.authService.login(loginData)
+        );
 
-    try {
-      const formValues = this.loginForm.value;
-      const loginData: AuthCredentials = {
-        email: formValues.email ?? '',
-        password: formValues.password ?? '',
-      };
-
-      // Intentar login
-      const response = await this.authService.login(loginData);
-
-      // Manejar "recordarme"
-      if (isPlatformBrowser(this.platformId)) {
-        if (formValues.rememberMe) {
-          this.authService.setStoredEmail(loginData.email);
-        } else {
-          this.authService.removeStoredEmail();
+        if (isPlatformBrowser(this.platformId)) {
+          if (formValues.rememberMe) {
+            this.authService.saveEmail(loginData.username);
+          } else {
+            this.authService.removeSavedEmail();
+          }
         }
+        this.messageService.add({
+          severity: 'success',
+          summary: '¡Bienvenido!',
+          detail: 'Has iniciado sesión correctamente',
+        });
+
+        const returnUrl =
+          this.router.getCurrentNavigation()?.extractedUrl.queryParams[
+            'returnUrl'
+          ] || '/login';
+
+        // Navegar a la URL de retorno o a /profile por defecto
+        this.router.navigate([returnUrl]);
+      } catch (error: any) {
+        const detail =
+          error.status === 401
+            ? 'Credenciales inválidas. Por favor, verifica tus datos.'
+            : 'Error inesperado. Intenta nuevamente más tarde.';
+
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail,
+        });
+      } finally {
+        this.isLoading.set(false);
       }
-
-      // Mostrar mensaje de éxito
-      this.messageService.add({
-        severity: 'success',
-        summary: '¡Bienvenido!',
-        detail: 'Has iniciado sesión correctamente',
-      });
-
-      // Navegar al dashboard según rol
-      const dashboardRoute = this.authService.getDashboardRoute(
-        response.user?.rol
-      );
-      await this.router.navigate([dashboardRoute]);
-    } catch (error: any) {
-      console.error('Error en login:', error);
-
-      // Mostrar mensaje de error
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error de autenticación',
-        detail: error.message || 'Error al iniciar sesión',
-        life: 5000,
-      });
-    } finally {
-      // Restablecer estado de la UI
-      this.isLoading.set(false);
-      this.loginForm.enable();
     }
   }
 

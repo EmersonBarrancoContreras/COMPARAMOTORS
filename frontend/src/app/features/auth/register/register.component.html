@@ -1,1 +1,292 @@
-<p>register works!</p>
+<!-- register.component.html -->
+<div class="register-container">
+  <div class="register-wrapper">
+    <p-toast
+      position="top-right"
+      [baseZIndex]="5000"
+      [preventDuplicates]="true"
+      styleClass="register-toast"
+    ></p-toast>
+
+    <p-card styleClass="register-card">
+      <!-- Estructura de dos columnas -->
+      <ng-template pTemplate="content">
+        <!-- Columna izquierda para el logo -->
+        <div class="logo-container">
+          <img src="assets/img/logo/logo3.png" alt="Logo" class="logo" />
+        </div>
+
+        <!-- Columna derecha para el formulario -->
+        <div class="form-section">
+          <h2 class="welcome-text">¡Crea tu cuenta!</h2>
+          <p class="subtitle">Completa tus datos para registrarte</p>
+
+          <form
+            [formGroup]="registerForm"
+            (ngSubmit)="onSubmit()"
+            class="register-form"
+          >
+            <div class="form-container">
+              <div>
+                <!-- Nombre -->
+                <div class="form-field">
+                  <label for="name" class="field-label">Nombre</label>
+                  <span class="p-input-icon-left w-full">
+                    <i class="pi pi-user"></i>
+                    <input
+                      id="name"
+                      type="text"
+                      pInputText
+                      formControlName="name"
+                      placeholder="Ingresa tu nombre"
+                      class="w-full"
+                      [ngClass]="{
+                        'ng-invalid ng-dirty':
+                          registerForm.get('name')?.invalid &&
+                          registerForm.get('name')?.touched
+                      }"
+                    />
+                  </span>
+                  @if (registerForm.get('name')?.invalid &&
+                  registerForm.get('name')?.touched) {
+                  <small class="error-message">
+                    @if (registerForm.get('name')?.errors?.['required']) { El
+                    nombre es obligatorio }
+                  </small>
+                  }
+                </div>
+
+                <!-- Apellido -->
+                <div class="form-field">
+                  <label for="lastName" class="field-label">Apellido</label>
+                  <span class="p-input-icon-left w-full">
+                    <i class="pi pi-user"></i>
+                    <input
+                      id="lastName"
+                      type="text"
+                      pInputText
+                      formControlName="lastName"
+                      placeholder="Ingresa tu apellido"
+                      class="w-full"
+                      [ngClass]="{
+                        'ng-invalid ng-dirty':
+                          registerForm.get('lastName')?.invalid &&
+                          registerForm.get('lastName')?.touched
+                      }"
+                    />
+                  </span>
+                  @if (registerForm.get('lastName')?.invalid &&
+                  registerForm.get('lastName')?.touched) {
+                  <small class="error-message">
+                    @if (registerForm.get('lastName')?.errors?.['required']) {
+                    El apellido es obligatorio }
+                  </small>
+                  }
+                </div>
+
+                <!-- Teléfono -->
+                <div class="form-field">
+                  <label for="phoneNumber" class="field-label"
+                    >Número telefónico</label
+                  >
+                  <span class="p-input-icon-left w-full">
+                    <i class="pi pi-phone"></i>
+                    <input
+                      id="phoneNumber"
+                      type="text"
+                      pInputText
+                      formControlName="phoneNumber"
+                      placeholder="Ingresa tu número telefónico"
+                      class="w-full"
+                      [ngClass]="{
+                        'ng-invalid ng-dirty':
+                          registerForm.get('phoneNumber')?.invalid &&
+                          registerForm.get('phoneNumber')?.touched
+                      }"
+                    />
+                  </span>
+                  @if (registerForm.get('phoneNumber')?.invalid &&
+                  registerForm.get('phoneNumber')?.touched) {
+                  <small class="error-message">
+                    @if (registerForm.get('phoneNumber')?.errors?.['required'])
+                    { El número telefónico es obligatorio }
+                  </small>
+                  }
+                </div>
+              </div>
+
+              <div>
+                <!-- Correo electrónico -->
+                <div class="form-field">
+                  <label for="email" class="field-label"
+                    >Correo electrónico</label
+                  >
+                  <span class="p-input-icon-left w-full">
+                    <i class="pi pi-envelope"></i>
+                    <input
+                      id="email"
+                      type="email"
+                      pInputText
+                      formControlName="email"
+                      placeholder="correo@ejemplo.com"
+                      class="w-full"
+                      [ngClass]="{
+                        'ng-invalid ng-dirty':
+                          registerForm.get('email')?.invalid &&
+                          registerForm.get('email')?.touched
+                      }"
+                    />
+                  </span>
+                  @if (registerForm.get('email')?.invalid &&
+                  registerForm.get('email')?.touched) {
+                  <small class="error-message">
+                    @if (registerForm.get('email')?.errors?.['required']) { El
+                    correo electrónico es obligatorio } @else if
+                    (registerForm.get('email')?.errors?.['email']) { Formato de
+                    correo electrónico inválido }
+                  </small>
+                  }
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-field">
+                  <label for="password" class="field-label">Contraseña</label>
+                  <span class="p-input-icon-left w-full">
+                    <i class="pi pi-lock"></i>
+                    <p-password
+                      id="password"
+                      formControlName="password"
+                      [toggleMask]="true"
+                      styleClass="w-full"
+                      inputStyleClass="w-full"
+                      placeholder="Crea tu contraseña"
+                      [ngClass]="{
+                        'ng-invalid ng-dirty':
+                          registerForm.get('password')?.invalid &&
+                          registerForm.get('password')?.touched
+                      }"
+                      [feedback]="true"
+                      promptLabel="Ingresa tu contraseña"
+                      weakLabel="Débil"
+                      mediumLabel="Media"
+                      strongLabel="Fuerte"
+                    ></p-password>
+                  </span>
+                  @if (registerForm.get('password')?.invalid &&
+                  registerForm.get('password')?.touched) {
+                  <small class="error-message">
+                    @if (registerForm.get('password')?.errors?.['required']) {
+                    La contraseña es obligatoria } @else if
+                    (registerForm.get('password')?.errors?.['minlength']) { La
+                    contraseña debe tener al menos 8 caracteres }
+                  </small>
+                  }
+                </div>
+
+                <!-- Confirmar contraseña -->
+                <div class="form-field">
+                  <label for="confirmPassword" class="field-label"
+                    >Confirmar contraseña</label
+                  >
+                  <span class="p-input-icon-left w-full">
+                    <i class="pi pi-lock"></i>
+                    <p-password
+                      id="confirmPassword"
+                      formControlName="confirmPassword"
+                      [feedback]="false"
+                      [toggleMask]="true"
+                      styleClass="w-full"
+                      inputStyleClass="w-full"
+                      placeholder="Confirma tu contraseña"
+                      [ngClass]="{
+                        'ng-invalid ng-dirty':
+                          (registerForm.get('confirmPassword')?.invalid &&
+                            registerForm.get('confirmPassword')?.touched) ||
+                          registerForm.hasError('passwordMismatch')
+                      }"
+                    ></p-password>
+                  </span>
+                  @if ((registerForm.get('confirmPassword')?.invalid &&
+                  registerForm.get('confirmPassword')?.touched) ||
+                  registerForm.hasError('passwordMismatch')) {
+                  <small class="error-message">
+                    @if
+                    (registerForm.get('confirmPassword')?.errors?.['required'])
+                    { Confirma tu contraseña } @else if
+                    (registerForm.hasError('passwordMismatch')) { Las
+                    contraseñas no coinciden }
+                  </small>
+                  }
+                </div>
+              </div>
+            </div>
+            <!-- Términos y condiciones -->
+            <div class="form-options">
+              <div class="remember-me">
+                <p-checkbox
+                  formControlName="termsAccepted"
+                  [binary]="true"
+                  inputId="termsAccepted"
+                ></p-checkbox>
+                <label for="termsAccepted" class="checkbox-label">
+                  Acepto los
+                  <a href="javascript:void(0)" class="forgot-password"
+                    >términos y condiciones</a
+                  >
+                </label>
+              </div>
+            </div>
+
+            <!-- Botón de registro -->
+            <div class="button-register">
+              <button
+                pButton
+                pRipple
+                type="submit"
+                label="Crear cuenta"
+                class="register-button p-button-raised"
+                [disabled]="registerForm.invalid || isLoading()"
+              ></button>
+            </div>
+          </form>
+
+          <p-divider align="center">
+            <span class="divider-text">O regístrate con</span>
+          </p-divider>
+
+          <div class="social-register">
+            <button
+              pButton
+              pRipple
+              type="button"
+              class="p-button-rounded p-button-outlined p-button-secondary social-button"
+            >
+              <i class="pi pi-google"></i>
+            </button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              class="p-button-rounded p-button-outlined p-button-secondary social-button"
+            >
+              <i class="pi pi-facebook"></i>
+            </button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              class="p-button-rounded p-button-outlined p-button-secondary social-button"
+            >
+              <i class="pi pi-apple"></i>
+            </button>
+          </div>
+
+          <div class="register-prompt">
+            <span>¿Ya tienes una cuenta?</span>
+            <a routerLink="/login" class="register-link">Iniciar sesión</a>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

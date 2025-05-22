@@ -98,6 +98,7 @@
           type="submit"
           label="Iniciar sesión"
           class="login-button p-button-raised"
+          [disabled]="loginForm.invalid || isLoading()"
         ></button>
       </form>
 
@@ -134,7 +135,13 @@
 
       <div class="register-prompt">
         <span>¿No tienes una cuenta?</span>
-        <a href="javascript:void(0)" class="register-link">Registrarse</a>
+        <a
+          (click)="navigateTo('./register')"
+          style="cursor: pointer"
+          class="register-link"
+        >
+          Registrarse</a
+        >
       </div>
     </p-card>
   </div>

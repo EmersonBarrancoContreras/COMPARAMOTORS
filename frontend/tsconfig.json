@@ -4,8 +4,7 @@
     "paths": {
       "@shared/*": ["./src/app/shared/*"],
       "@assets/*": ["./src/assets/*"],
-      "@services/*": ["./src/app/core/services/*"],
-      "@environments/*": ["./src/environments/*"]
+      "@services/*": ["./src/app/core/services/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

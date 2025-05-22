@@ -1,209 +1,145 @@
-// auth.service.ts
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, OnInit, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { environment } from '@environments/environments';
-import { NotificationService } from './notification.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface AuthCredentials {
-  email: string;
+  username: string;
   password: string;
 }
 
-export interface AuthTokens {
-  token: string;
-  refreshToken?: string;
-  user?: {
-    id?: number;
-    username?: string;
-    email?: string;
-    roles?: string[];
-    rol?: string;
-  };
+export interface user {
+  username: string;
+  password: string;
+  email: string;
+  name: string;
+  lastName: string;
+  phoneNumber: number;
+}
+
+export interface RegisterData extends AuthCredentials {
+  username: string;
+  password: string;
+  email: string;
+  name: string;
+  lastName: string;
+  phoneNumber: number;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  user: user;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private messageService = inject(NotificationService);
-  private apiUrl = environment.apiUrl;
+  private accessToken = signal<string | null>(null);
+  private userData = signal<user | null>(null);
+  private readonly STORAGE = {
+    TOKEN: 'token',
+    USER: 'user',
+    EMAIL: 'rememberedEmail',
+  } as const;
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  // Estado del usuario
-  readonly authUser = signal<any>(null);
-  readonly isLoading = signal(false);
-
-  // Bandera para evitar múltiples intentos simultáneos
-  private isLoggingIn = false;
+  private readonly apiUrl = 'http://localhost:8080/api';
 
   constructor() {
-    this.checkLocalToken();
-  }
-
-  /**
-   * Método para iniciar sesión - versión simplificada
-   */
-  async login(credentials: AuthCredentials): Promise<AuthTokens> {
-    // Evitar múltiples peticiones simultáneas
-    if (this.isLoggingIn) {
-      console.warn('Ya hay un proceso de login en curso');
-      throw new Error('Ya hay un proceso de login en curso');
-    }
-
-    try {
-      this.isLoggingIn = true;
-      this.isLoading.set(true);
-
-      // Usar fetch en lugar de HttpClient para tener más control
-      const response = await fetch(`${this.apiUrl}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.email,
-          password: credentials.password,
-        }),
-      });
-
-      // Verificar si la respuesta es exitosa
-      if (!response.ok) {
-        let errorMsg = 'Error al iniciar sesión';
-
-        if (response.status === 401) {
-          errorMsg = 'Credenciales incorrectas';
-        } else if (response.status === 500) {
-          errorMsg = 'Error en el servidor';
-        }
-
-        throw new Error(errorMsg);
-      }
-
-      // Convertir respuesta a JSON
-      const data = await response.json();
-
-      if (data && data.token) {
-        // Guardar tokens
-        localStorage.setItem('token', data.token);
-        if (data.refreshToken) {
-          localStorage.setItem('refreshToken', data.refreshToken);
-        }
-
-        // Decodificar y establecer usuario
-        this.setUserFromToken(data.token);
-
-        return data;
-      } else {
-        throw new Error('Respuesta inválida del servidor');
-      }
-    } catch (error: any) {
-      console.error('Error en el proceso de login:', error);
-      this.messageService.error(error.message || 'Error al iniciar sesión');
-      throw error;
-    } finally {
-      this.isLoggingIn = false;
-      this.isLoading.set(false);
-    }
-  }
-
-  /**
-   * Cierra la sesión del usuario
-   */
-  async logout(): Promise<void> {
-    // Limpiar almacenamiento local
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('savedEmail');
-
-    // Restablecer estado
-    this.authUser.set(null);
-
-    // Navegar a login
-    try {
-      await this.router.navigate(['/login']);
-      this.messageService.info('Has cerrado sesión');
-    } catch (error) {
-      console.error('Error al redireccionar tras logout:', error);
-    }
-  }
-
-  /**
-   * Obtiene el token almacenado en localStorage
-   */
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  /**
-   * Determina la ruta del dashboard según el rol
-   */
-  getDashboardRoute(role?: string): string {
-    if (role === 'ADMIN') return '/admin/dashboard';
-    if (role === 'USER') return '/user/dashboard';
-    return '/landing';
-  }
-
-  /**
-   * Gestiona el email guardado para recordar usuario
-   */
-  getStoredEmail(): string | null {
-    return localStorage.getItem('savedEmail');
-  }
-
-  setStoredEmail(email: string): void {
-    localStorage.setItem('savedEmail', email);
-  }
-
-  removeStoredEmail(): void {
-    localStorage.removeItem('savedEmail');
-  }
-
-  /**
-   * Verifica si el usuario está autenticado
-   */
-  isAuthenticated(): boolean {
-    return Boolean(this.authUser());
-  }
-
-  /**
-   * Verifica el token almacenado localmente
-   */
-  private checkLocalToken(): void {
-    const token = this.getToken();
-    if (token) {
-      try {
-        this.setUserFromToken(token);
-      } catch (error) {
-        console.error('Error al verificar token:', error);
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        this.authUser.set(null);
+    if (this.isBrowser) {
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        this.setUserData(token);
       }
     }
   }
 
-  /**
-   * Establece el usuario a partir del token decodificado
-   */
-  private setUserFromToken(token: string): void {
-    try {
-      const decoded = jwtDecode<any>(token);
+  login(login: AuthCredentials): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, login);
+  }
 
-      // Verificar expiración
-      const expirationDate = new Date(decoded.exp * 1000);
-      if (expirationDate < new Date()) {
-        throw new Error('Token expirado');
-      }
+  register(register: RegisterData): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/users/register`,
+      register
+    );
+  }
 
-      // Establecer usuario
-      this.authUser.set(decoded);
-    } catch (error) {
-      console.error('Error al decodificar token:', error);
-      this.authUser.set(null);
-      throw error;
+  ngOnInit() {}
+
+  setUserData(token: string) {
+    const decodedToken: any = jwtDecode(token);
+    this.userData.set({
+      username: decodedToken.sub,
+      email: decodedToken.email,
+      name: decodedToken.name,
+      lastName: decodedToken.lastName,
+      phoneNumber: decodedToken.phoneNumber,
+      password: '',
+    });
+    this.accessToken.set(token);
+  }
+
+  logout() {
+    this.userData.set(null);
+    this.accessToken.set(null);
+    if (this.isBrowser) {
+      localStorage.removeItem('accessToken');
+    }
+    this.router.navigate(['/login']);
+  }
+
+  getAccessToken(): string | null {
+    if (this.isBrowser) {
+      return localStorage.getItem('accessToken');
+    }
+    return null;
+  }
+
+  getUserData(): user | null {
+    if (this.isBrowser) {
+      const userData = localStorage.getItem('userData');
+      return userData ? JSON.parse(userData) : null;
+    }
+    return null;
+  }
+
+  setAccessToken(token: string) {
+    if (this.isBrowser) {
+      localStorage.setItem('accessToken', token);
+    }
+    this.accessToken.set(token);
+  }
+
+  setUserDataToLocalStorage(user: user) {
+    if (this.isBrowser) {
+      localStorage.setItem('userData', JSON.stringify(user));
+    }
+    this.userData.set(user);
+  }
+
+  getSavedEmail(): string | null {
+    if (this.isBrowser) {
+      return localStorage.getItem(this.STORAGE.EMAIL);
+    }
+    return null;
+  }
+
+  saveEmail(username: string): void {
+    if (this.isBrowser) {
+      localStorage.setItem(this.STORAGE.EMAIL, username);
+    }
+  }
+
+  removeSavedEmail() {
+    if (this.isBrowser) {
+      localStorage.removeItem(this.STORAGE.EMAIL);
     }
   }
 }
