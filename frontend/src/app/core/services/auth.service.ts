@@ -65,9 +65,11 @@ export class AuthService implements OnInit {
   }
 
   register(register: RegisterData): Observable<AuthResponse> {
+    const headers = { 'Content-Type': 'application/json' };
     return this.http.post<AuthResponse>(
       `${this.apiUrl}/users/register`,
-      register
+      register,
+      { headers }
     );
   }
 

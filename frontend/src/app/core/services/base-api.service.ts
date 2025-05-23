@@ -1,7 +1,13 @@
 // base-api.service.ts
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Injectable, inject, Inject, Optional, InjectionToken } from '@angular/core';
+import {
+  Injectable,
+  inject,
+  Inject,
+  Optional,
+  InjectionToken,
+} from '@angular/core';
 import { environment } from '@environments/environments';
 
 export const RESOURCE_PATH = new InjectionToken<string>('RESOURCE_PATH');
@@ -9,9 +15,11 @@ export const RESOURCE_PATH = new InjectionToken<string>('RESOURCE_PATH');
 @Injectable()
 export class BaseApiService<T> {
   protected http = inject(HttpClient);
-  protected apiUrl: string;
+  protected apiUrl: 'http/localhost:8080/api' | string;
 
-  constructor(@Optional() @Inject(RESOURCE_PATH) protected resourcePath: string = '') {
+  constructor(
+    @Optional() @Inject(RESOURCE_PATH) protected resourcePath: string = ''
+  ) {
     this.apiUrl = `${environment.apiUrl}/${resourcePath}`;
   }
 
