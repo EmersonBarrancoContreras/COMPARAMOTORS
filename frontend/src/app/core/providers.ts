@@ -1,5 +1,9 @@
 // providers.ts - Proveedores para la aplicación Angular 19
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { cacheInterceptor } from './interceptors/cache.interceptor';
@@ -10,10 +14,11 @@ import { cacheInterceptor } from './interceptors/cache.interceptor';
  */
 export const provideHttpWithInterceptors = () => {
   return provideHttpClient(
+    withFetch(),
     withInterceptors([
       // Orden importante de los interceptores
       cacheInterceptor, // Primero cache para evitar llamadas innecesarias
-      authInterceptor,  // Después auth para añadir token
+      authInterceptor, // Después auth para añadir token
       errorInterceptor, // Por último error para capturar cualquier error
     ])
   );

@@ -1,4 +1,3 @@
-// register.component.ts
 import { Component, OnInit, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
@@ -88,50 +87,79 @@ export default class RegisterComponent implements OnInit {
       }
     }
   }
-
   async onSubmit() {
-    if (this.registerForm.valid) {
-      this.isLoading.set(true);
+    console.log('Iniciando proceso de registro...');
+    console.log(
+      'Estado del formulario:',
+      this.registerForm.valid ? 'Válido' : 'Inválido'
+    );    if (!this.registerForm.valid) {
+      console.log('Errores del formulario:', this.registerForm.errors);
+      console.log('Validación por campo:', {
+        name: this.registerForm.get('name')?.errors,
+        email: this.registerForm.get('email')?.errors,
+        password: this.registerForm.get('password')?.errors,
+        confirmPassword: this.registerForm.get('confirmPassword')?.errors,
+        lastName: this.registerForm.get('lastName')?.errors,
+        phoneNumber: this.registerForm.get('phoneNumber')?.errors,
+        termsAccepted: this.registerForm.get('termsAccepted')?.errors,
+      });
+      return;
+    }
 
-      try {
-        const formValues = this.registerForm.value;
-        const registerData = {
-          username: formValues.name ?? '',
-          password: formValues.password ?? '',
-          email: formValues.email ?? '',
-          name: formValues.name ?? '',
-          lastName: formValues.lastName ?? '',
-          phoneNumber: Number(formValues.phoneNumber) ?? 0,
-        };
+    this.isLoading.set(true);
+    console.log('Cargando establecido a: true');
 
-        const response = await firstValueFrom(
-          this.authService.register(registerData)
-        );
+    try {
+      const formValues = this.registerForm.value;
+      console.log('Valores del formulario:', formValues);
 
-        this.messageService.add({
-          severity: 'success',
-          summary: '¡Registro exitoso!',
-          detail: 'Tu cuenta ha sido creada correctamente',
-        });
+      // Asegurarse de que todos los campos sean correctos
+      const registerData = {
+        username: formValues.email ?? '', // Usando el email como username
+        password: formValues.password ?? '',
+        email: formValues.email ?? '',
+        name: formValues.name ?? '',
+        lastName: formValues.lastName ?? '',
+        phoneNumber: Number(formValues.phoneNumber) ?? 0,
+      };
+      console.log('Datos de registro preparados:', registerData);
 
-        // Redireccionar al login después del registro exitoso
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 1500);
-      } catch (error: any) {
-        const detail =
-          error.status === 409
-            ? 'El correo electrónico ya está registrado.'
-            : 'Error inesperado. Intenta nuevamente más tarde.';
+      console.log('Enviando solicitud de registro...');
+      const response = await firstValueFrom(
+        this.authService.register(registerData)
+      );
+      console.log('Respuesta del servidor:', response);
 
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail,
-        });
-      } finally {
-        this.isLoading.set(false);
-      }
+      console.log('Mostrando mensaje de éxito');
+      this.messageService.add({
+        severity: 'success',
+        summary: '¡Registro exitoso!',
+        detail: 'Tu cuenta ha sido creada correctamente',
+      });
+
+      console.log('Configurando redirección a login en 1.5 segundos');
+      setTimeout(() => {
+        console.log('Redirigiendo a /login');
+        this.router.navigate(['/login']);
+      }, 1500);
+    } catch (error: any) {
+      console.error('Error durante el registro:', error);
+      console.log('Código de estado:', error.status);
+
+      const detail =
+        error.status === 409
+          ? 'El correo electrónico ya está registrado.'
+          : 'Error inesperado. Intenta nuevamente más tarde.';
+
+      console.log('Mostrando mensaje de error:', detail);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'error',
+        detail,
+      });
+    } finally {
+      console.log('Finalizando proceso, cargando establecido a: false');
+      this.isLoading.set(false);
     }
   }
 }

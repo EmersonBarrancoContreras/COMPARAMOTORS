@@ -64,7 +64,6 @@ export default class LoginComponent implements OnInit {
     }
 
     //cargar email guardado si existe
-
     const savedEmail = this.authService.getSavedEmail();
     if (savedEmail) {
       this.loginForm.patchValue({
