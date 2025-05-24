@@ -111,13 +111,11 @@ export default class LoginComponent implements OnInit {
         this.router.navigate([returnUrl]);
       } catch (error: any) {
         const detail =
-          error.status === 401
-            ? 'Credenciales inválidas. Por favor, verifica tus datos.'
-            : 'Error inesperado. Intenta nuevamente más tarde.';
-
+          error.error?.message ||
+          'Error al iniciar sesión. Por favor, verifica tus credenciales.';
         this.messageService.add({
           severity: 'error',
-          summary: 'Error',
+          summary: 'error de inicio de sesión',
           detail,
         });
       } finally {

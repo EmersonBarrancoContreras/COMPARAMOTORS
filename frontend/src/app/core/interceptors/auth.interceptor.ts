@@ -24,7 +24,21 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     unauthorizedCount = 0;
   }
 
-  // Añadir token a la solicitud si existe
+  // Añadir token a la solicitud si existe y si no es una ruta pública
+  const isPublicRoute =
+    req.url.includes('/login') ||
+    (req.url.includes('/users/register') && req.method === 'POST');
+
+  if (!isPublicRoute) {
+    const token = authService.getAccessToken();
+    if (token) {
+      req = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+  }
 
   return next(req);
 };
